@@ -4,9 +4,17 @@ const playButton = document.getElementById("play");
 const wavesurfer = WaveSurfer.create({
   container: "#waveform",
   waveColor: "violet",
+  height: 200,
   progressColor: "purple",
   normalize: true,
+  plugins: [
+    WaveSurfer.regions.create({
+      dragSelection: true,
+    }),
+  ],
 });
+
+wavesurfer.on("region-updated", console.log);
 
 playButton.addEventListener("click", () => {
   wavesurfer.play();
