@@ -10,12 +10,11 @@ const wavesurfer = WaveSurfer.create({
   progressColor: "purple",
   backend: "MediaElement",
   normalize: true,
-  // pixelRatio: 1,
+  interact: false,
   minPxPerSec: 30,
   autoCenter: false,
   plugins: [
     WaveSurfer.regions.create({
-      dragSelection: true,
       deferInit: true,
     }),
     ZoomToMousePlugin.create({
@@ -24,24 +23,41 @@ const wavesurfer = WaveSurfer.create({
   ],
 });
 
+console.log("wavesurfer:", wavesurfer);
 wavesurfer.on("region-click", function (region, e) {
   e.stopPropagation();
   // Play on click, loop on shift click
   e.shiftKey ? region.playLoop() : region.play();
 });
 
-// wavesurfer.on("ready", () => wavesurfer.playPause());
-
-// let slider = document.querySelector('[data-action="zoom"]');
-
-// slider.value = wavesurfer.params.minPxPerSec;
-// slider.min = wavesurfer.params.minPxPerSec;
-// // Allow extreme zoom-in, to see individual samples
-// slider.max = 1000;
-
-// slider.addEventListener("input", function () {
-//   wavesurfer.zoom(Number(this.value));
-// });
+wavesurfer.container.addEventListener("dblclick", function (e) {
+  console.log("e:", e);
+  console.log("e:", wavesurfer.params);
+  console.log("e:", wavesurfer.container.firstChild.clientWidth);
+  console.log(
+    "wave rect",
+    wavesurfer.container.firstChild.getBoundingClientRect()
+  );
+  console.log(
+    "wavesurfer.container.firstChild:",
+    wavesurfer.container.firstChild
+  );
+  console.log("wavesurfer.getDuration():", wavesurfer.getDuration());
+  console.log(
+    "second per pixel",
+    wavesurfer.getDuration() / wavesurfer.container.firstChild.clientWidth
+  );
+  wavesurfer.addRegion({
+    start:
+      (e.clientX -
+        wavesurfer.container.firstChild.getBoundingClientRect().left) *
+      (wavesurfer.getDuration() / wavesurfer.container.firstChild.scrollWidth),
+    end: 50,
+  });
+  // wavesurfer.enableDragSelection({});
+  // // wavesurfer.getDuration();
+  // console.log("wavesurfer.getCurrentTime()():", wavesurfer.getCurrentTime());
+});
 
 playButton.addEventListener("click", () => {
   wavesurfer.playPause();
@@ -65,4 +81,28 @@ downloadButton.addEventListener("click", () => {
     .catch((e) => {
       console.error("error", e);
     });
+
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  wavesurfer.container.addEventListener("mousedown", (e) => {
+    isDown = true;
+    startX = e.pageX - wavesurfer.container.firstChild.offsetLeft;
+    scrollLeft = wavesurfer.container.firstChild.scrollLeft;
+  });
+  wavesurfer.container.addEventListener("mouseleave", () => {
+    isDown = false;
+  });
+  wavesurfer.container.addEventListener("mouseup", () => {
+    isDown = false;
+  });
+  wavesurfer.container.addEventListener("mousemove", (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - wavesurfer.container.firstChild.offsetLeft;
+    const walk = (x - startX) * 3; //scroll-fast
+    wavesurfer.container.firstChild.scrollLeft = scrollLeft - walk;
+    console.log(walk);
+  });
 });
