@@ -13,16 +13,18 @@
       type="text/javascript"
       src="https://unpkg.com/wavesurfer.js/dist/plugin/wavesurfer.regions.js"
     ></script>
-    <script type="module" src="zoom.js"></script>
-    <script defer type="module" src="index.js"></script>
-    <style>
-      .wavesurfer-handle {
-        width: 10px !important;
-      }
-    </style>
+    <script type="module" src="index.js"></script>
   </head>
   <body>
     <div id="waveform"></div>
+    <!-- <input
+      data-action="zoom"
+      type="range"
+      min="1"
+      max="200"
+      value="0"
+      style="width: 100%"
+    /> -->
     <button id="download">Download</button>
     <button id="play">Play</button>
   </body>

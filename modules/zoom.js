@@ -1,4 +1,4 @@
-export default class ZoomToMousePlugin {
+export class ZoomToMousePlugin {
   static create(params) {
     return {
       name: "zoomToMousePlugin",
