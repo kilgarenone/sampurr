@@ -39,25 +39,25 @@ export class ZoomToMousePlugin {
     this.wavesurfer.fireEvent("zoom", pxPerSec);
   }
 
-  _onWaveFormMouseWheelEvent(e) {
-    e.preventDefault();
+  _onWaveFormMouseWheelEvent(event) {
+    event.preventDefault();
     const zoom = this.wavesurfer.params.minPxPerSec;
+    console.log("zoom:", zoom);
     const maxZoom = this.params.maxPxPerSec;
-    var deltaY = 0;
-    if (e.deltaY) {
-      deltaY = e.deltaY;
-    } else if (e.wheelDelta) {
-      deltaY = -e.wheelDelta;
-    }
-    const zoomRatio = maxZoom / 10;
+    console.log("maxZoom:", maxZoom);
+
+    const delta = event.wheelDelta;
+    console.log("delta:", delta);
+
     let zoomValue = zoom;
-    if (deltaY < 0) {
+    if (delta > 0) {
       // zoom in
-      zoomValue = zoom + zoomRatio < maxZoom ? zoom + zoomRatio : maxZoom;
+      zoomValue = zoom + 10 < maxZoom ? zoom + 10 : maxZoom;
     } else {
       // zoom out
-      zoomValue = zoom - zoomRatio > 0 ? zoom - zoomRatio : 0;
+      zoomValue = zoom - 10 > 0 ? zoom - 10 : 0;
     }
+    console.log("zoomValue:", zoomValue);
     this.zoomToMouse(zoomValue);
   }
 
