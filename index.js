@@ -19,7 +19,6 @@ const wavesurfer = WaveSurfer.create({
 
 wavesurfer.on("region-click", function (region, e) {
   e.stopPropagation();
-  // Play on click, loop on shift click
   e.shiftKey ? region.playLoop() : region.play();
 });
 
@@ -47,9 +46,8 @@ downloadButton.addEventListener("click", () => {
 let isDown = false;
 let startX;
 let scrollLeft;
-let startClickX;
 let maybeDoubleClickDragging = false;
-let timeout;
+let maybeDoubleClickDraggingTimeout;
 
 wavesurfer.container.addEventListener("click", function (e) {
   maybeDoubleClickDragging = true;
@@ -66,13 +64,11 @@ wavesurfer.container.addEventListener("click", function (e) {
 
 wavesurfer.container.addEventListener("mousedown", (e) => {
   if (maybeDoubleClickDragging) {
-    clearTimeout(timeout);
-    console.log("setup for doubleclick dragging");
+    clearTimeout(maybeDoubleClickDraggingTimeout);
     return;
   }
 
   isDown = true;
-
   startX = e.pageX - wavesurfer.container.firstChild.offsetLeft;
   scrollLeft = wavesurfer.container.firstChild.scrollLeft;
 });
@@ -82,19 +78,16 @@ wavesurfer.container.addEventListener("mouseleave", () => {
 });
 
 wavesurfer.container.addEventListener("mouseup", (event) => {
-  timeout = setTimeout(function () {
-    console.log("inside settimepotu");
+  maybeDoubleClickDraggingTimeout = setTimeout(() => {
     maybeDoubleClickDragging = false;
   }, 200);
+
   isDown = false;
 });
 
 wavesurfer.container.addEventListener("mousemove", (e) => {
   if (!isDown) return;
-  console.log(
-    "maybeDoubleClickDragging inside mousemove",
-    maybeDoubleClickDragging
-  );
+
   e.preventDefault();
   const x = e.pageX - wavesurfer.container.firstChild.offsetLeft;
   const walk = (x - startX) * 3; //scroll-fast
