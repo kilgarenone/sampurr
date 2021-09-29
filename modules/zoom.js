@@ -4,20 +4,20 @@ export class ZoomToMousePlugin {
       name: "zoomToMousePlugin",
       deferInit: params && params.deferInit ? params.deferInit : false,
       params: params,
-      staticProps: {
-        setMaxPxPerSec(maxPxPerSec) {
-          this.zoomToMousePlugin.params.maxPxPerSec = maxPxPerSec;
-        },
-      },
+      // staticProps: {
+      //   setMaxPxPerSec(maxPxPerSec) {
+      //     this.zoomToMousePlugin.params.maxPxPerSec = maxPxPerSec;
+      //   },
+      // },
       instance: ZoomToMousePlugin,
     };
   }
 
   constructor(params, ws) {
-    this.params = Object.assign(params, {
-      maxPxPerSec: 1000,
-    });
-
+    this.params = {
+      maxPxPerSec: 150,
+    };
+    this.currentZoom = 0;
     this.wavesurfer = ws;
     this.mouseDuration = null;
   }
@@ -32,33 +32,27 @@ export class ZoomToMousePlugin {
       this.wavesurfer.params.scrollParent = true;
     }
     this.wavesurfer.drawBuffer();
-    this.wavesurfer.drawer.progress(
-      this.wavesurfer.backend.getPlayedPercents()
-    );
+    // this.wavesurfer.drawer.progress(
+    //   this.wavesurfer.backend.getPlayedPercents()
+    // );
     this.wavesurfer.drawer.recenter(this.mouseDuration);
     this.wavesurfer.fireEvent("zoom", pxPerSec);
   }
 
   _onWaveFormMouseWheelEvent(event) {
     event.preventDefault();
-    const zoom = this.wavesurfer.params.minPxPerSec;
-    console.log("zoom:", zoom);
+
     const maxZoom = this.params.maxPxPerSec;
-    console.log("maxZoom:", maxZoom);
 
-    const delta = event.wheelDelta;
-    console.log("delta:", delta);
-
-    let zoomValue = zoom;
-    if (delta > 0) {
+    if (event.wheelDelta > 0) {
       // zoom in
-      zoomValue = zoom + 10 < maxZoom ? zoom + 10 : maxZoom;
+      this.currentZoom = Math.min(this.currentZoom + 10, maxZoom);
     } else {
       // zoom out
-      zoomValue = zoom - 10 > 0 ? zoom - 10 : 0;
+      this.currentZoom = Math.max(this.currentZoom - 10, 0);
     }
-    console.log("zoomValue:", zoomValue);
-    this.zoomToMouse(zoomValue);
+
+    this.zoomToMouse(this.currentZoom);
   }
 
   _onWaveFormMouseMove(e) {

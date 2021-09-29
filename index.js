@@ -13,14 +13,8 @@ const wavesurfer = WaveSurfer.create({
   interact: false,
   minPxPerSec: 30,
   autoCenter: false,
-  plugins: [
-    WaveSurfer.regions.create({
-      deferInit: true,
-    }),
-    ZoomToMousePlugin.create({
-      maxPxPerSec: 5000, // default 1000
-    }),
-  ],
+  responsive: true,
+  plugins: [WaveSurfer.regions.create(), ZoomToMousePlugin.create()],
 });
 
 console.log("wavesurfer:", wavesurfer);
@@ -31,32 +25,16 @@ wavesurfer.on("region-click", function (region, e) {
 });
 
 wavesurfer.container.addEventListener("dblclick", function (e) {
-  console.log("e:", e);
-  console.log("e:", wavesurfer.params);
-  console.log("e:", wavesurfer.container.firstChild.clientWidth);
-  console.log(
-    "wave rect",
-    wavesurfer.container.firstChild.getBoundingClientRect()
-  );
-  console.log(
-    "wavesurfer.container.firstChild:",
-    wavesurfer.container.firstChild
-  );
-  console.log("wavesurfer.getDuration():", wavesurfer.getDuration());
-  console.log(
-    "second per pixel",
-    wavesurfer.getDuration() / wavesurfer.container.firstChild.clientWidth
-  );
+  const rect = e.target.getBoundingClientRect();
+  const x = e.clientX - rect.left; // x position along the waveform
+  const percent = x / wavesurfer.container.firstChild.scrollWidth; // 0 to 1 range, 0 = start, 1 = end
+  const time = wavesurfer.getDuration() * percent;
+  console.log("time:", time);
+
   wavesurfer.addRegion({
-    start:
-      (e.clientX -
-        wavesurfer.container.firstChild.getBoundingClientRect().left) *
-      (wavesurfer.getDuration() / wavesurfer.container.firstChild.scrollWidth),
-    end: 50,
+    start: time,
+    end: time + 5,
   });
-  // wavesurfer.enableDragSelection({});
-  // // wavesurfer.getDuration();
-  // console.log("wavesurfer.getCurrentTime()():", wavesurfer.getCurrentTime());
 });
 
 playButton.addEventListener("click", () => {
@@ -76,7 +54,6 @@ downloadButton.addEventListener("click", () => {
 
       // load peaks into wavesurfer.js
       wavesurfer.load("http://localhost:4000/bamxPYj0O9M.mp3", peaks.data);
-      wavesurfer.initPlugin("regions");
     })
     .catch((e) => {
       console.error("error", e);
