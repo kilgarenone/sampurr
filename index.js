@@ -18,7 +18,6 @@ const wavesurfer = WaveSurfer.create({
 });
 
 wavesurfer.on("region-click", function (region, e) {
-  console.log("region:", region);
   e.stopPropagation();
   e.shiftKey ? region.playLoop() : region.play();
 });
@@ -45,8 +44,8 @@ downloadButton.addEventListener("click", () => {
 });
 
 let isDown = false;
-let scrollStartX;
-let scrollLeft;
+let scrollStartX = 0;
+let scrollLeft = 0;
 
 let maybeDoubleClickDragging = false;
 let maybeDoubleClickDraggingTimeout = null;
@@ -59,15 +58,15 @@ canvas.width = width;
 canvas.height = height;
 wavesurfer.container.appendChild(canvas);
 
-var ctx = canvas.getContext("2d");
+const ctx = canvas.getContext("2d");
 ctx.strokeStyle = "blue";
 ctx.lineWidth = 3;
-var offsetX = left;
-var offsetY = top;
-var startX;
-var startY;
-let mouseX;
-let mouseY;
+let offsetX = left;
+let offsetY = top;
+let startX = 0;
+let startY = 0;
+let mouseX = 0;
+let mouseY = 0;
 
 wavesurfer.container.addEventListener("click", function (e) {
   maybeDoubleClickDragging = true;
@@ -77,13 +76,18 @@ wavesurfer.container.addEventListener("click", function (e) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     const duration = wavesurfer.getDuration();
+
+    const waveFormContainerScrollLeft =
+      wavesurfer.container.firstChild.scrollLeft; // the <wave />
+    const waveFormContainerScrollWidth =
+      wavesurfer.container.firstChild.scrollWidth; // the <wave />
+
     const startPercentX =
-      (startX + wavesurfer.container.firstChild.scrollLeft) /
-      wavesurfer.container.firstChild.scrollWidth; // 0 to 1 range, 0 = start, 1 = end
+      (startX + waveFormContainerScrollLeft) / waveFormContainerScrollWidth; // 0 to 1 range, 0 = start, 1 = end
     const startTime = duration * startPercentX;
+
     const startPercentX2 =
-      (mouseX + wavesurfer.container.firstChild.scrollLeft) /
-      wavesurfer.container.firstChild.scrollWidth; // 0 to 1 range, 0 = start, 1 = end
+      (mouseX + waveFormContainerScrollLeft) / waveFormContainerScrollWidth; // 0 to 1 range, 0 = start, 1 = end
     const endTime = duration * startPercentX2;
 
     wavesurfer.addRegion({
@@ -104,6 +108,8 @@ wavesurfer.container.addEventListener("mousedown", (e) => {
   wavesurfer.container.addEventListener("mouseleave", handleMouseLeave);
 
   if (maybeDoubleClickDragging) {
+    wavesurfer.clearRegions();
+
     clearTimeout(maybeDoubleClickDraggingTimeout);
     // save the starting x/y of the rectangle
     startX = parseInt(e.clientX - offsetX);
@@ -144,7 +150,7 @@ function handleMousemove(e) {
     mouseX = parseInt(e.clientX - offsetX);
     // calculate the rectangle width/height based
     // on starting vs current mouse position
-    var width = mouseX - startX;
+    let width = mouseX - startX;
 
     // clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
