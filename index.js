@@ -70,8 +70,11 @@ let mouseY;
 
 wavesurfer.container.addEventListener("click", function (e) {
   maybeDoubleClickDragging = true;
+  wavesurfer.container.removeEventListener("mousemove", handleMousemove);
 
-  // maybs00);
+  // maybeDoubleClickDraggingTimeout = setTimeout(() => {
+  //   maybeDoubleClickDragging = false;
+  // }, 200);
   // const rect = e.target.getBoundingClientRect();
   // const x = e.clientX - rect.left; // x position along the waveform
   // const percent = x / wavesurfer.container.firstChild.scrollWidth; // 0 to 1 range, 0 = start, 1 = end
@@ -86,11 +89,13 @@ wavesurfer.container.addEventListener("mousedown", (e) => {
   e.preventDefault();
   e.stopPropagation();
 
+  wavesurfer.container.addEventListener("mousemove", handleMousemove);
+
   if (maybeDoubleClickDragging) {
     clearTimeout(maybeDoubleClickDraggingTimeout);
     // save the starting x/y of the rectangle
-    // startX = parseInt(e.clientX - offsetX);
-    // startY = parseInt(e.clientY - offsetY);
+    startX = parseInt(e.clientX - offsetX);
+    startY = parseInt(e.clientY - offsetY);
 
     return;
   }
@@ -111,30 +116,31 @@ wavesurfer.container.addEventListener("mouseup", (e) => {
   maybeDoubleClickDraggingTimeout = setTimeout(() => {
     maybeDoubleClickDragging = false;
   }, 200);
-
   isDown = false;
 });
 
-wavesurfer.container.addEventListener("mousemove", (e) => {
+wavesurfer.container.addEventListener("mousemove", handleMousemove);
+
+function handleMousemove(e) {
   e.preventDefault();
   e.stopPropagation();
 
   if (maybeDoubleClickDragging) {
     console.log("maybeDoubleClickDragging:", maybeDoubleClickDragging);
     // get the current mouse position
-    // mouseX = parseInt(e.clientX - offsetX);
+    mouseX = parseInt(e.clientX - offsetX);
     // mouseY = parseInt(e.clientY - offsetY);
-    // // calculate the rectangle width/height based
-    // // on starting vs current mouse position
-    // var width = mouseX - startX;
+    // calculate the rectangle width/height based
+    // on starting vs current mouse position
+    var width = mouseX - startX;
     // var height = mouseY - startY;
 
-    // // clear the canvas
-    // ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // // draw a new rect from the start position
-    // // to the current mouse position
-    // ctx.strokeRect(startX, startY, width, height);
+    // draw a new rect from the start position
+    // to the current mouse position
+    ctx.strokeRect(startX, 0, width, 200);
 
     return;
   }
@@ -144,4 +150,4 @@ wavesurfer.container.addEventListener("mousemove", (e) => {
   const x = e.pageX - wavesurfer.container.firstChild.offsetLeft;
   const walk = (x - scrollStartX) * 3; //scroll-fast
   wavesurfer.container.firstChild.scrollLeft = scrollLeft - walk;
-});
+}
