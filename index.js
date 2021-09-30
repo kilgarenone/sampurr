@@ -133,6 +133,7 @@ function handleMouseup(e) {
   maybeDoubleClickDraggingTimeout = setTimeout(() => {
     maybeDoubleClickDragging = false;
   }, 200);
+
   isDown = false;
 
   wavesurfer.container.removeEventListener("mousemove", handleMousemove);
@@ -145,7 +146,6 @@ function handleMousemove(e) {
   e.stopPropagation();
 
   if (maybeDoubleClickDragging) {
-    console.log("maybeDoubleClickDragging:", maybeDoubleClickDragging);
     // get the current mouse position
     mouseX = parseInt(e.clientX - offsetX);
     // calculate the rectangle width/height based
