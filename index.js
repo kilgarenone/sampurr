@@ -13,11 +13,12 @@ const wavesurfer = WaveSurfer.create({
   interact: false,
   minPxPerSec: 30,
   autoCenter: false,
-  responsive: true,
+  // responsive: true,
   plugins: [WaveSurfer.regions.create(), ZoomToMousePlugin.create()],
 });
 
 wavesurfer.on("region-click", function (region, e) {
+  console.log("region:", region);
   e.stopPropagation();
   e.shiftKey ? region.playLoop() : region.play();
 });
@@ -48,7 +49,7 @@ let scrollStartX;
 let scrollLeft;
 
 let maybeDoubleClickDragging = false;
-let maybeDoubleClickDraggingTimeout;
+let maybeDoubleClickDraggingTimeout = null;
 
 const canvas = document.createElement("canvas");
 canvas.id = "canvas";
@@ -72,17 +73,26 @@ wavesurfer.container.addEventListener("click", function (e) {
   maybeDoubleClickDragging = true;
   wavesurfer.container.removeEventListener("mousemove", handleMousemove);
 
-  // maybeDoubleClickDraggingTimeout = setTimeout(() => {
-  //   maybeDoubleClickDragging = false;
-  // }, 200);
-  // const rect = e.target.getBoundingClientRect();
-  // const x = e.clientX - rect.left; // x position along the waveform
-  // const percent = x / wavesurfer.container.firstChild.scrollWidth; // 0 to 1 range, 0 = start, 1 = end
-  // const time = wavesurfer.getDuration() * percent;
-  // wavesurfer.addRegion({
-  //   start: time,
-  //   end: time + 5,
-  // });
+  if (mouseX > 0) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const duration = wavesurfer.getDuration();
+    const startPercentX =
+      (startX + wavesurfer.container.firstChild.scrollLeft) /
+      wavesurfer.container.firstChild.scrollWidth; // 0 to 1 range, 0 = start, 1 = end
+    const startTime = duration * startPercentX;
+    const startPercentX2 =
+      (mouseX + wavesurfer.container.firstChild.scrollLeft) /
+      wavesurfer.container.firstChild.scrollWidth; // 0 to 1 range, 0 = start, 1 = end
+    const endTime = duration * startPercentX2;
+
+    wavesurfer.addRegion({
+      start: startTime,
+      end: endTime,
+    });
+
+    mouseX = 0;
+  }
 });
 
 wavesurfer.container.addEventListener("mousedown", (e) => {
@@ -90,12 +100,13 @@ wavesurfer.container.addEventListener("mousedown", (e) => {
   e.stopPropagation();
 
   wavesurfer.container.addEventListener("mousemove", handleMousemove);
+  wavesurfer.container.addEventListener("mouseup", handleMouseup);
+  wavesurfer.container.addEventListener("mouseleave", handleMouseLeave);
 
   if (maybeDoubleClickDragging) {
     clearTimeout(maybeDoubleClickDraggingTimeout);
     // save the starting x/y of the rectangle
     startX = parseInt(e.clientX - offsetX);
-    startY = parseInt(e.clientY - offsetY);
 
     return;
   }
@@ -105,11 +116,11 @@ wavesurfer.container.addEventListener("mousedown", (e) => {
   scrollLeft = wavesurfer.container.firstChild.scrollLeft;
 });
 
-wavesurfer.container.addEventListener("mouseleave", () => {
+function handleMouseLeave() {
   isDown = false;
-});
+}
 
-wavesurfer.container.addEventListener("mouseup", (e) => {
+function handleMouseup(e) {
   e.preventDefault();
   e.stopPropagation();
 
@@ -117,7 +128,11 @@ wavesurfer.container.addEventListener("mouseup", (e) => {
     maybeDoubleClickDragging = false;
   }, 200);
   isDown = false;
-});
+
+  wavesurfer.container.removeEventListener("mousemove", handleMousemove);
+  wavesurfer.container.removeEventListener("mouseup", handleMouseup);
+  wavesurfer.container.removeEventListener("mouseleave", handleMouseLeave);
+}
 
 function handleMousemove(e) {
   e.preventDefault();
@@ -127,11 +142,9 @@ function handleMousemove(e) {
     console.log("maybeDoubleClickDragging:", maybeDoubleClickDragging);
     // get the current mouse position
     mouseX = parseInt(e.clientX - offsetX);
-    // mouseY = parseInt(e.clientY - offsetY);
     // calculate the rectangle width/height based
     // on starting vs current mouse position
     var width = mouseX - startX;
-    // var height = mouseY - startY;
 
     // clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
