@@ -119,8 +119,6 @@ wavesurfer.container.addEventListener("mouseup", (e) => {
   isDown = false;
 });
 
-wavesurfer.container.addEventListener("mousemove", handleMousemove);
-
 function handleMousemove(e) {
   e.preventDefault();
   e.stopPropagation();
