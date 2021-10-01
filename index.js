@@ -2,6 +2,7 @@ import { ZoomToMousePlugin } from "./modules/zoom.js";
 
 const downloadButton = document.getElementById("download");
 const playButton = document.getElementById("play");
+const downloadSampleButton = document.getElementById("download-sample");
 
 const wavesurfer = WaveSurfer.create({
   container: "#waveform",
@@ -24,6 +25,25 @@ wavesurfer.on("region-click", function (region, e) {
 
 playButton.addEventListener("click", () => {
   wavesurfer.playPause();
+});
+
+downloadSampleButton.addEventListener("click", () => {
+  fetch("http://localhost:4000/download", {
+    method: "POST",
+    body: JSON.stringify(
+      Object.keys(wavesurfer.regions.list).map(function (id) {
+        let region = wavesurfer.regions.list[id];
+        return {
+          start: region.start,
+          end: region.end,
+          // attributes: region.attributes,
+          // data: region.data
+        };
+      })[0]
+    ),
+    headers: { "Content-Type": "application/json" },
+  });
+  console.log(wavesurfer.regions.list);
 });
 
 downloadButton.addEventListener("click", () => {
