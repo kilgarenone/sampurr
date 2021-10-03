@@ -69,7 +69,11 @@ downloadButton.addEventListener("click", () => {
               // Get the data and send it to the browser via the controller
               controller.enqueue(value);
               // Check chunks by logging to the console
-              console.log(done, decoder.decode(value));
+              try {
+                const decodedChunk = JSON.parse(decoder.decode(value));
+                console.log("decodedChunk:", decodedChunk);
+              } catch (e) {}
+
               push();
             });
           }
@@ -77,17 +81,17 @@ downloadButton.addEventListener("click", () => {
           push();
         },
       });
-    })
-    .then((stream) => {
-      // Respond with our stream
-      return new Response(stream, {
-        headers: { "Content-Type": "application/json" },
-      }).text();
-    })
-    .then((result) => {
-      // Do things with result
-      console.log(result);
     });
+  // .then((stream) => {
+  //   // Respond with our stream
+  //   return new Response(stream, {
+  //     headers: { "Content-Type": "application/json" },
+  //   }).json();
+  // })
+  // .then((result) => {
+  //   // Do things with result
+  //   console.log(result);
+  // });
   // .then((body) => {
   //   // const reader = body.getReader();
   //   // load peaks into wavesurfer.js
