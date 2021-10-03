@@ -48,45 +48,61 @@ downloadSampleButton.addEventListener("click", () => {
 
 const decoder = new TextDecoder();
 
-downloadButton.addEventListener("click", () => {
-  fetch("http://localhost:4000/haha")
-    .then((response) => response.body)
-    .then((rb) => {
-      const reader = rb.getReader();
+downloadButton.addEventListener("click", async () => {
+  const response = await fetch("http://localhost:4000/haha");
+  const reader = response.body.getReader();
 
-      return new ReadableStream({
-        start(controller) {
-          // The following function handles each data chunk
-          function push() {
-            // "done" is a Boolean and value a "Uint8Array"
-            reader.read().then(({ done, value }) => {
-              // If there is no more data to read
-              if (done) {
-                console.log("done", done);
-                controller.close();
-                return;
-              }
-              // Get the data and send it to the browser via the controller
-              controller.enqueue(value);
-              // Check chunks by logging to the console
-              try {
-                const decodedChunk = JSON.parse(decoder.decode(value));
-                console.log("decodedChunk:", decodedChunk);
-              } catch (e) {}
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    try {
+      const { title, thumbnail, duration, percent, data } = JSON.parse(
+        decoder.decode(value)
+      );
+      console.log("percent:", percent);
+      if (data) {
+        wavesurfer.load("http://localhost:4000/bamxPYj0O9M.mp3", data);
+      }
+    } catch (e) {}
+  }
+  // fetch("http://localhost:4000/haha")
+  //   .then((response) => response.body)
+  //   .then((rb) => {
+  //     const reader = rb.getReader();
 
-              push();
-            });
-          }
+  //     return new ReadableStream({
+  //       start(controller) {
+  //         // The following function handles each data chunk
+  //         function push() {
+  //           // "done" is a Boolean and value a "Uint8Array"
+  //           reader.read().then(({ done, value }) => {
+  //             // If there is no more data to read
+  //             if (done) {
+  //               console.log("done", done);
+  //               controller.close();
+  //               return;
+  //             }
+  //             // Get the data and send it to the browser via the controller
+  //             controller.enqueue(value);
+  //             // Check chunks by logging to the console
+  //             try {
+  //               const decodedhunk = JSON.parse(decoder.decode(value));
+  //               console.log("progress:", progress);
+  //             } catch (e) {}
 
-          push();
-        },
-      });
-    });
+  //             push();
+  //           });
+  //         }
+
+  //         push();
+  //       },
+  //     });
+  //   })
   // .then((stream) => {
   //   // Respond with our stream
   //   return new Response(stream, {
   //     headers: { "Content-Type": "application/json" },
-  //   }).json();
+  //   }).text();
   // })
   // .then((result) => {
   //   // Do things with result
