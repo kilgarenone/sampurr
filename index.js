@@ -64,7 +64,7 @@ downloadButton.addEventListener("click", async () => {
       );
       console.log("percent:", percent);
       if (data) {
-        wavesurfer.load("http://localhost:4000/bamxPYj0O9M.mp3", data);
+        wavesurfer.load("http://localhost:4000/bamxPYj0O9M.wav", data);
       }
     } catch (e) {}
   }
