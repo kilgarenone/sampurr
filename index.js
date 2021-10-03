@@ -28,22 +28,25 @@ playButton.addEventListener("click", () => {
 });
 
 downloadSampleButton.addEventListener("click", () => {
-  fetch("http://localhost:4000/download", {
-    method: "POST",
-    body: JSON.stringify(
-      Object.keys(wavesurfer.regions.list).map(function (id) {
-        let region = wavesurfer.regions.list[id];
-        return {
-          start: region.start,
-          end: region.end,
-          // attributes: region.attributes,
-          // data: region.data
-        };
-      })[0]
-    ),
-    headers: { "Content-Type": "application/json" },
-  });
-  console.log(wavesurfer.regions.list);
+  const { start, end } = Object.keys(wavesurfer.regions.list).map((id) => {
+    const region = wavesurfer.regions.list[id];
+    return {
+      start: region.start,
+      end: region.end,
+    };
+  })[0];
+
+  // note: Fetch API won't prompt the 'Save as' dialog!
+  // read more: https://medium.com/@drevets/you-cant-prompt-a-file-download-with-the-content-disposition-header-using-axios-xhr-sorry-56577aa706d6
+  const a = document.createElement("a");
+  a.style = "display: none";
+  document.body.appendChild(a);
+  // TODO: custom sample's title
+  a.href = `http://localhost:4000/download?start=${start}&end=${end}&title=noshit`;
+  // TODO: need to match the title above
+  a.download = "noshit.wav";
+  a.click();
+  a.remove();
 });
 
 const decoder = new TextDecoder();
