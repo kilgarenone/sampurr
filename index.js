@@ -28,7 +28,7 @@ playButton.addEventListener("click", () => {
 });
 
 downloadSampleButton.addEventListener("click", () => {
-  const { start, end } = Object.keys(wavesurfer.regions.list).map((id) => {
+  const region = Object.keys(wavesurfer.regions.list).map((id) => {
     const region = wavesurfer.regions.list[id];
     return {
       start: region.start,
@@ -36,18 +36,57 @@ downloadSampleButton.addEventListener("click", () => {
     };
   })[0];
 
+  // const sampleBuffer = copy(region, wavesurfer);
+  // console.log("sampleBuffer:", sampleBuffer);
   // note: Fetch API won't prompt the 'Save as' dialog!
   // read more: https://medium.com/@drevets/you-cant-prompt-a-file-download-with-the-content-disposition-header-using-axios-xhr-sorry-56577aa706d6
   const a = document.createElement("a");
   a.style = "display: none";
   document.body.appendChild(a);
   // TODO: custom sample's title
-  a.href = `http://localhost:4000/download?start=${start}&end=${end}&title=noshit`;
+  a.href = `http://localhost:4000/download?start=${region.start}&end=${region.end}&title=noshit`;
   // TODO: need to match the title above
   a.download = "noshit.wav";
   a.click();
   a.remove();
 });
+
+export function copy(region, instance) {
+  var segmentDuration = region.end - region.start;
+
+  console.log("instance.backend:", instance.backend);
+  // var originalBuffer = instance.backend.buffer;
+  // var emptySegment = instance.backend.ac.createBuffer(
+  //   originalBuffer.numberOfChannels,
+  //   segmentDuration * originalBuffer.sampleRate,
+  //   originalBuffer.sampleRate
+  // );
+  // for (var i = 0; i < originalBuffer.numberOfChannels; i++) {
+  //   var chanData = originalBuffer.getChannelData(i);
+  //   var emptySegmentData = emptySegment.getChannelData(i);
+  //   var mid_data = chanData.subarray(
+  //     region.start * originalBuffer.sampleRate,
+  //     region.end * originalBuffer.sampleRate
+  //   );
+  //   emptySegmentData.set(mid_data);
+  // }
+  /*// this.cutSelection = emptySegment
+  // emptySegment; // Here you go! Not empty anymore, contains a copy of the segment!
+  // instance.loadDecodedBuffer(emptySegment);
+
+  var arraybuffer = this.bufferToWave(emptySegment,0,emptySegment.length);//Will create a new Blob with
+  let url = URL.createObjectURL(arraybuffer)
+  debugger
+
+  var audio = new Audio(url);
+  audio.controls = true;
+  audio.volume = 0.5;
+  audio.autoplay = true;
+  //playSound(abuffer);
+  document.body.appendChild(audio);
+  */
+  // return emptySegment;
+}
 
 const decoder = new TextDecoder();
 
