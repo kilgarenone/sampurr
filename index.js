@@ -14,7 +14,6 @@ const wavesurfer = WaveSurfer.create({
   interact: false,
   minPxPerSec: 30,
   autoCenter: false,
-  // responsive: true,
   plugins: [WaveSurfer.regions.create(), ZoomToMousePlugin.create()],
 });
 
@@ -36,8 +35,6 @@ downloadSampleButton.addEventListener("click", () => {
     };
   })[0];
 
-  // const sampleBuffer = copy(region, wavesurfer);
-  // console.log("sampleBuffer:", sampleBuffer);
   // note: Fetch API won't prompt the 'Save as' dialog!
   // read more: https://medium.com/@drevets/you-cant-prompt-a-file-download-with-the-content-disposition-header-using-axios-xhr-sorry-56577aa706d6
   const a = document.createElement("a");
@@ -50,43 +47,6 @@ downloadSampleButton.addEventListener("click", () => {
   a.click();
   a.remove();
 });
-
-export function copy(region, instance) {
-  var segmentDuration = region.end - region.start;
-
-  console.log("instance.backend:", instance.backend);
-  // var originalBuffer = instance.backend.buffer;
-  // var emptySegment = instance.backend.ac.createBuffer(
-  //   originalBuffer.numberOfChannels,
-  //   segmentDuration * originalBuffer.sampleRate,
-  //   originalBuffer.sampleRate
-  // );
-  // for (var i = 0; i < originalBuffer.numberOfChannels; i++) {
-  //   var chanData = originalBuffer.getChannelData(i);
-  //   var emptySegmentData = emptySegment.getChannelData(i);
-  //   var mid_data = chanData.subarray(
-  //     region.start * originalBuffer.sampleRate,
-  //     region.end * originalBuffer.sampleRate
-  //   );
-  //   emptySegmentData.set(mid_data);
-  // }
-  /*// this.cutSelection = emptySegment
-  // emptySegment; // Here you go! Not empty anymore, contains a copy of the segment!
-  // instance.loadDecodedBuffer(emptySegment);
-
-  var arraybuffer = this.bufferToWave(emptySegment,0,emptySegment.length);//Will create a new Blob with
-  let url = URL.createObjectURL(arraybuffer)
-  debugger
-
-  var audio = new Audio(url);
-  audio.controls = true;
-  audio.volume = 0.5;
-  audio.autoplay = true;
-  //playSound(abuffer);
-  document.body.appendChild(audio);
-  */
-  // return emptySegment;
-}
 
 const decoder = new TextDecoder();
 
@@ -138,7 +98,7 @@ downloadButton.addEventListener("click", async () => {
     })
     .then(({ data: peaks }) => {
       // load peaks into wavesurfer.js
-      wavesurfer.load("http://localhost:4000/bamxPYj0O9M.mp3", peaks);
+      wavesurfer.load("http://localhost:4000/bamxPYj0O9M.wav", peaks);
     })
     .catch((e) => {
       console.error("error", e);
@@ -170,6 +130,10 @@ let startY = 0;
 let mouseX = 0;
 let mouseY = 0;
 
+function round(value, decimals) {
+  return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
+}
+
 wavesurfer.container.addEventListener("click", function (e) {
   maybeDoubleClickDragging = true;
   wavesurfer.container.removeEventListener("mousemove", handleMousemove);
@@ -193,8 +157,8 @@ wavesurfer.container.addEventListener("click", function (e) {
     const endTime = duration * startPercentX2;
 
     wavesurfer.addRegion({
-      start: startTime,
-      end: endTime,
+      start: round(startTime, 3),
+      end: round(endTime, 3),
     });
 
     mouseX = 0;
