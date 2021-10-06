@@ -37,7 +37,7 @@ select {
   --color-mid: grey;
 
   line-height: var(--ratio);
-  font-size: calc(0.1vw + 1em);
+  font-size: 100%;
   font-family: var(--font-plain);
   color: var(--color-dark);
 }
@@ -77,31 +77,56 @@ html {
   z-index: 3 !important;
 }
 
-#url-label {
-  font-size: 5rem;
+.url-label {
+  font-size: 1em;
   font-weight: 600;
 }
 
-#url-field {
-  border: 6px solid;
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  font-size: 1.5rem;
-  height: 7rem;
+.url-field {
+  border: 0.2em solid;
+  border-radius: 5px;
+  padding: 0 0.5em;
+  font-size: 0.82em;
+  height: 3.5em;
+  margin-bottom: 1.05em;
 }
 
 #url-form {
   max-width: 600px;
   margin: 0 auto;
+  font-size: 30px;
 }
 
-#url-submit-btn {
-  font-size: 2rem;
+#mini-url-form {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 16px;
+  width: 400px;
+  height: 60px;
+
+  & .url-submit-btn {
+    background-color: transparent;
+    position: absolute;
+    right: 0;
+    top: 8px;
+  }
+
+  & .url-field {
+    border-radius: 3.5em;
+    margin-bottom: 0;
+    padding-right: 45px;
+    padding-left: 13px;
+    height: 100%;
+    font-size: 16px;
+  }
+}
+
+.url-submit-btn {
   background: black;
   color: white;
-  border-radius: 0.4rem;
-  margin-top: 1.5rem;
-  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  padding: 0.5em 1em;
 }
 
 input {
