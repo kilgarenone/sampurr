@@ -1,9 +1,10 @@
 import { ZoomToMousePlugin } from "./zoom.js";
 import WaveSurfer from "wavesurfer.js";
 import RegionPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions.min.js";
+import "./index.css";
 
-const downloadButton = document.getElementById("download");
-const playButton = document.getElementById("play");
+const downloadButton = document.getElementById("url-form");
+// const playButton = document.getElementById("play");
 const downloadSampleButton = document.getElementById("download-sample");
 
 const wavesurfer = WaveSurfer.create({
@@ -24,38 +25,40 @@ wavesurfer.on("region-click", function (region, e) {
   e.shiftKey ? region.playLoop() : region.play();
 });
 
-playButton.addEventListener("click", () => {
-  wavesurfer.playPause();
-});
+// playButton.addEventListener("click", () => {
+//   wavesurfer.playPause();
+// });
 
-downloadSampleButton.addEventListener("click", () => {
-  const region = Object.keys(wavesurfer.regions.list).map((id) => {
-    const region = wavesurfer.regions.list[id];
-    return {
-      start: region.start,
-      end: region.end,
-    };
-  })[0];
+// downloadSampleButton.addEventListener("click", () => {
+//   const region = Object.keys(wavesurfer.regions.list).map((id) => {
+//     const region = wavesurfer.regions.list[id];
+//     return {
+//       start: region.start,
+//       end: region.end,
+//     };
+//   })[0];
 
-  // note: Fetch API won't prompt the 'Save as' dialog!
-  // read more: https://medium.com/@drevets/you-cant-prompt-a-file-download-with-the-content-disposition-header-using-axios-xhr-sorry-56577aa706d6
-  const a = document.createElement("a");
-  a.style = "display: none";
-  document.body.appendChild(a);
-  // TODO: custom sample's title
-  a.href = `http://localhost:4000/download?start=${region.start}&end=${region.end}&title=noshit`;
-  // TODO: need to match the title above
-  a.download = "noshit.wav";
-  a.click();
-  a.remove();
-});
+//   // note: Fetch API won't prompt the 'Save as' dialog!
+//   // read more: https://medium.com/@drevets/you-cant-prompt-a-file-download-with-the-content-disposition-header-using-axios-xhr-sorry-56577aa706d6
+//   const a = document.createElement("a");
+//   a.style = "display: none";
+//   document.body.appendChild(a);
+//   // TODO: custom sample's title
+//   a.href = `http://localhost:4000/download?start=${region.start}&end=${region.end}&title=noshit`;
+//   // TODO: need to match the title above
+//   a.download = "noshit.wav";
+//   a.click();
+//   a.remove();
+// });
 
 const decoder = new TextDecoder();
 
-downloadButton.addEventListener("click", async () => {
-  fetch(
-    "http://localhost:4000/waveform?url=https://www.youtube.com/watch?v=bamxPYj0O9M"
-  )
+downloadButton.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const data = new FormData(event.target);
+
+  fetch(`http://localhost:4000/waveform?url=${data.get("url")}`)
     .then((response) => response.body)
     .then((rb) => {
       const reader = rb.getReader();
