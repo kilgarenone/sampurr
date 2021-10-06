@@ -58,7 +58,7 @@ const configureOptimization = () => ({
   // split webpack runtime/manifest code into a separate chunk
   // so that hashes stay same when rebuilding without changes
   runtimeChunk: "single",
-  usedExports: true,
+  moduleIds: "deterministic",
   splitChunks: {
     chunks: "all",
   },
@@ -73,29 +73,26 @@ const configureHTML = {
   mode: "production",
 };
 
-module.exports = [
-  merge(common.modernConfig, {
-    mode: "production",
-    output: {
-      filename: `${settings.jsFolder}/[name].[chunkhash].js`,
-      path: settings.outputPath,
-      chunkFilename: "[name].[chunkhash].js",
-      publicPath: "/",
-      clean: true,
-    },
-    devtool: "source-map",
-    optimization: configureOptimization(),
-    module: {
-      rules: [configureModernCSSLoader()],
-    },
-    plugins: [
-      new BundleAnalyzerPlugin(configureBundleAnalyzer(MODERN_CONFIG)),
-      new MiniCssExtractPlugin({
-        filename: "[name].[contenthash].css",
-        chunkFilename: "[name].[contenthash].css",
-      }),
-      new HtmlWebpackPlugin(configureHTML),
-      new webpack.ids.HashedModuleIdsPlugin(),
-    ],
-  }),
-];
+module.exports = merge(common.modernConfig, {
+  mode: "production",
+  output: {
+    filename: `${settings.jsFolder}/[name].[chunkhash].js`,
+    chunkFilename: "[name].[chunkhash].js",
+    publicPath: "/",
+    clean: true,
+  },
+  devtool: "source-map",
+  optimization: configureOptimization(),
+  module: {
+    rules: [configureModernCSSLoader()],
+  },
+  plugins: [
+    new BundleAnalyzerPlugin(configureBundleAnalyzer(MODERN_CONFIG)),
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css",
+      chunkFilename: "[name].[contenthash].css",
+    }),
+    new HtmlWebpackPlugin(configureHTML),
+    new webpack.ids.HashedModuleIdsPlugin(),
+  ],
+});

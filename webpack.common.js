@@ -23,23 +23,25 @@ const configureModernBabelLoader = () => {
   };
 };
 
+// note: 'entry' path defaults to './src/index.js'
 const baseConfig = {
-  entry: {
-    app: settings.entryPath,
-  },
   module: {
     rules: [
       // FONT loader
       {
         test: /\.(woff|woff2)$/,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: `${settings.fontsFolder}/[name].[hash].[ext]`, // output to /fonts folder under output.path
-            },
-          },
-        ],
+        type: "asset/resource",
+        generator: {
+          filename: `${settings.fontsFolder}/[contenthash][ext][query]`,
+        },
+      },
+      // IMAGE loader
+      {
+        test: /\.(png|svg|jpg|jpeg)$/i,
+        type: "asset",
+        generator: {
+          filename: `${settings.imagesFolder}/[contenthash][ext][query]`,
+        },
       },
     ],
   },

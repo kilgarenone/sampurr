@@ -8,30 +8,27 @@ const common = require("./webpack.common.js");
 
 const devConfig = {
   mode: "development",
+  // note: output path defaults to './dist'
   output: {
     filename: "[name].js",
-    path: settings.outputPath,
     chunkFilename: "[name].js",
-    publicPath: "/",
   },
-  // Enable sourcemaps for debugging webpack's output.
-  devtool: "eval-source-map",
+  devtool: "inline-source-map",
   devServer: {
-    historyApiFallback: true,
     port: 8008,
-    hot: true, // enable hot module replacement
+    hot: true,
+    open: true,
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      template: settings.templatePath, // use our own template!,
+      template: settings.templatePath,
       filename: "index.html",
     }),
   ],
   module: {
     rules: [
       {
-        test: /\.((c|sc)ss)$/,
+        test: /\.css$/i,
         use: [
           "style-loader",
           { loader: "css-loader", options: { importLoaders: 1 } },
@@ -50,5 +47,4 @@ const devConfig = {
   },
 };
 
-// Development module exports
 module.exports = merge(common.modernConfig, devConfig);

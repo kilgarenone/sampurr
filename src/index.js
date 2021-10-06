@@ -1,4 +1,4 @@
-import { ZoomToMousePlugin } from "./modules/zoom.js";
+import { ZoomToMousePlugin } from "./zoom.js";
 
 const downloadButton = document.getElementById("download");
 const playButton = document.getElementById("play");
