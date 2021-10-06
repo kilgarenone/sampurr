@@ -35,6 +35,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "core-js": "^3.18.1"
+    "core-js": "^3.18.1",
+    "wavesurfer.js": "^5.2.0"
   }
 }

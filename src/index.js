@@ -1,4 +1,6 @@
 import { ZoomToMousePlugin } from "./zoom.js";
+import WaveSurfer from "wavesurfer.js";
+import RegionPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions.min.js";
 
 const downloadButton = document.getElementById("download");
 const playButton = document.getElementById("play");
@@ -14,7 +16,7 @@ const wavesurfer = WaveSurfer.create({
   interact: false,
   minPxPerSec: 30,
   autoCenter: false,
-  plugins: [WaveSurfer.regions.create(), ZoomToMousePlugin.create()],
+  plugins: [RegionPlugin.create(), ZoomToMousePlugin.create()],
 });
 
 wavesurfer.on("region-click", function (region, e) {
@@ -51,7 +53,9 @@ downloadSampleButton.addEventListener("click", () => {
 const decoder = new TextDecoder();
 
 downloadButton.addEventListener("click", async () => {
-  fetch("http://localhost:4000/haha")
+  fetch(
+    "http://localhost:4000/waveform?url=https://www.youtube.com/watch?v=bamxPYj0O9M"
+  )
     .then((response) => response.body)
     .then((rb) => {
       const reader = rb.getReader();
@@ -93,12 +97,14 @@ downloadButton.addEventListener("click", async () => {
     })
     .then((result) => {
       const data = result.split('"}');
-      const peaks = data[data.length - 1];
-      return JSON.parse(peaks);
+      return {
+        media: JSON.parse(data[0] + `"}`),
+        peaks: JSON.parse(data[data.length - 1]).data,
+      };
     })
-    .then(({ data: peaks }) => {
+    .then(({ media, peaks }) => {
       // load peaks into wavesurfer.js
-      wavesurfer.load("http://localhost:4000/bamxPYj0O9M.wav", peaks);
+      wavesurfer.load(`http://localhost:4000/${media.id}.wav`, peaks);
     })
     .catch((e) => {
       console.error("error", e);
