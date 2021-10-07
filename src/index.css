@@ -249,6 +249,7 @@ body {
 #progress-desc {
   font-size: 3rem;
   font-weight: 600;
+  min-height: 72px;
 }
 
 input {
