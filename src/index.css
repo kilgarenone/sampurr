@@ -58,9 +58,14 @@ html {
 body {
   height: 100%;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   &.js-thumbnail-ready {
     &::before {
+      will-change: filter;
       animation: blur 10s linear forwards;
       content: "";
       background-position: center;
@@ -78,6 +83,10 @@ body {
     & #progress {
       color: #fbfbfbcf;
     }
+
+    & #progress-value {
+      color: #ffffff94;
+    }
   }
 }
 
@@ -94,7 +103,10 @@ body {
 }
 
 #waveform {
-  position: relative;
+  position: absolute;
+  top: 30%;
+  width: 100%;
+  left: 0;
 }
 
 #canvas {
@@ -127,11 +139,10 @@ body {
 
 #url-form {
   max-width: 600px;
-  margin: 0 auto;
   font-size: 30px;
   transition: opacity 0.3s;
   opacity: 1;
-  visibility: visible;
+  position: absolute;
 
   &.js-hide {
     animation: 0.3s fadeOut;
@@ -144,7 +155,6 @@ body {
     opacity: 1;
   }
   100% {
-    visibility: hidden;
     opacity: 0;
   }
 }
@@ -205,8 +215,9 @@ body {
   margin: 0 auto;
   text-align: center;
   visibility: hidden;
-  position: relative;
+  position: absolute;
   transition: color 0.5s;
+  width: 100%;
 
   &.js-show {
     animation: 0.3s fadeIn;

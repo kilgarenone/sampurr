@@ -28,6 +28,10 @@ wavesurfer.on("region-click", function (region, e) {
   e.shiftKey ? region.playLoop() : region.play();
 });
 
+wavesurfer.on("waveform-ready", function (e) {
+  console.log("e:", e);
+});
+
 // playButton.addEventListener("click", () => {
 //   wavesurfer.playPause();
 // });
@@ -56,19 +60,19 @@ wavesurfer.on("region-click", function (region, e) {
 
 const decoder = new TextDecoder();
 
-// urlForm.addEventListener("transitionend", function (event) {
-//   console.log("event:", event);
-// });
-
 urlForm.addEventListener("submit", async function (event) {
   event.preventDefault();
 
-  document.getElementById("mini-url-form").classList.add("js-show");
   this.classList.add("js-hide");
+
   setTimeout(() => {
-    this.style.display = "none";
+    this.hidden = true;
   }, 300);
+
+  progressCont.hidden = false;
   progressCont.classList.add("js-show");
+
+  document.getElementById("mini-url-form").classList.add("js-show");
 
   const data = new FormData(event.target);
 
@@ -102,9 +106,7 @@ urlForm.addEventListener("submit", async function (event) {
                     "--thumbnail-image-url",
                     `url(${thumbnail})`
                   );
-                  setTimeout(() =>
-                    document.body.classList.add("js-thumbnail-ready")
-                  );
+                  document.body.classList.add("js-thumbnail-ready");
                   progressDescEle.textContent = "Extracting audio";
                 }
                 if (status) {
@@ -136,8 +138,18 @@ urlForm.addEventListener("submit", async function (event) {
       };
     })
     .then(({ media, peaks }) => {
+      if (media.thumbnail) {
+        document.documentElement.style.setProperty(
+          "--thumbnail-image-url",
+          `url(${media.thumbnail})`
+        );
+        document.body.classList.add("js-thumbnail-ready");
+        console.log(
+          document.documentElement.style.getProperty("--thumbnail-image-url")
+        );
+      }
       // load peaks into wavesurfer.js
-      // wavesurfer.load(`http://localhost:4000/${media.id}.wav`, peaks);
+      wavesurfer.load(`http://localhost:4000/${media.id}.wav`, peaks);
     })
     .catch((e) => {
       console.error("error", e);
