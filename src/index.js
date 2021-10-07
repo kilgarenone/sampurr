@@ -5,6 +5,7 @@ import "./index.css";
 
 const urlForm = document.getElementById("url-form");
 const progressValueEle = document.getElementById("progress-value");
+const progressDescEle = document.getElementById("progress-desc");
 const progressCont = document.getElementById("progress");
 // const playButton = document.getElementById("play");
 const downloadSampleButton = document.getElementById("download-sample");
@@ -95,9 +96,20 @@ urlForm.addEventListener("submit", async function (event) {
               try {
                 const { title, thumbnail, duration, percent, data, status } =
                   JSON.parse(decoder.decode(value));
-                console.log("status:", status);
-                progressValueEle.textContent = percent;
-              } catch (e) {}
+                if (percent) progressValueEle.textContent = percent;
+                if (thumbnail) {
+                  document.documentElement.style.setProperty(
+                    "--thumbnail-image-url",
+                    `url(${thumbnail})`
+                  );
+                  setTimeout(() =>
+                    document.body.classList.add("js-thumbnail-ready")
+                  );
+                  progressDescEle.textContent = "Extracting audio";
+                }
+              } catch (e) {
+                console.log("parseerrror:", e);
+              }
               // Get the data and send it to the browser via the controller
 
               push();
@@ -113,6 +125,7 @@ urlForm.addEventListener("submit", async function (event) {
       return new Response(stream).text();
     })
     .then((result) => {
+      console.log("result:", result);
       const data = result.split('"}');
       return {
         media: JSON.parse(data[0] + `"}`),

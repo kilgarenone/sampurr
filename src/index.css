@@ -35,6 +35,7 @@ select {
   --color-lightish: #e6e6e6;
   --color-light: #fafafa;
   --color-mid: grey;
+  --thumbnail-image-url: "";
 
   line-height: var(--ratio);
   font-size: 100%;
@@ -45,6 +46,35 @@ select {
 html {
   scrollbar-color: #0000002e #0000000d;
   scrollbar-width: thin;
+  height: 100%;
+}
+
+@keyframes blur {
+  to {
+    filter: blur(8px);
+  }
+}
+
+body {
+  height: 100%;
+
+  &.js-thumbnail-ready {
+    &::before {
+      animation: blur 2s linear forwards;
+      content: "";
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-image: var(--thumbnail-image-url);
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    & #progress {
+      color: #fff;
+    }
+  }
 }
 
 /* WebKit and Chromiums */
@@ -135,7 +165,7 @@ html {
   width: 400px;
   height: 60px;
   transition: opacity 0.5s;
-  transition-delay: 0.5s;
+  transition-delay: 0.7s;
 
   &.js-show {
     opacity: 1;
@@ -201,7 +231,7 @@ html {
   }
 }
 
-.progress-desc {
+#progress-desc {
   font-size: 3rem;
   font-weight: 600;
 }
