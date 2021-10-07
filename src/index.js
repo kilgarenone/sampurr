@@ -3,7 +3,9 @@ import WaveSurfer from "wavesurfer.js";
 import RegionPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions.min.js";
 import "./index.css";
 
-const downloadButton = document.getElementById("url-form");
+const urlForm = document.getElementById("url-form");
+const progressValueEle = document.getElementById("progress-value");
+const progressCont = document.getElementById("progress");
 // const playButton = document.getElementById("play");
 const downloadSampleButton = document.getElementById("download-sample");
 
@@ -53,8 +55,19 @@ wavesurfer.on("region-click", function (region, e) {
 
 const decoder = new TextDecoder();
 
-downloadButton.addEventListener("submit", async (event) => {
+// urlForm.addEventListener("transitionend", function (event) {
+//   console.log("event:", event);
+// });
+
+urlForm.addEventListener("submit", async function (event) {
   event.preventDefault();
+
+  document.getElementById("mini-url-form").classList.add("js-show");
+  this.classList.add("js-hide");
+  setTimeout(() => {
+    this.style.display = "none";
+  }, 300);
+  progressCont.classList.add("js-show");
 
   const data = new FormData(event.target);
 
@@ -80,9 +93,10 @@ downloadButton.addEventListener("submit", async (event) => {
 
               // Check chunks by logging to the console
               try {
-                const { title, thumbnail, duration, percent, data } =
+                const { title, thumbnail, duration, percent, data, status } =
                   JSON.parse(decoder.decode(value));
-                playButton.textContent = percent;
+                console.log("status:", status);
+                progressValueEle.textContent = percent;
               } catch (e) {}
               // Get the data and send it to the browser via the controller
 
@@ -107,7 +121,7 @@ downloadButton.addEventListener("submit", async (event) => {
     })
     .then(({ media, peaks }) => {
       // load peaks into wavesurfer.js
-      wavesurfer.load(`http://localhost:4000/${media.id}.wav`, peaks);
+      // wavesurfer.load(`http://localhost:4000/${media.id}.wav`, peaks);
     })
     .catch((e) => {
       console.error("error", e);
