@@ -107,6 +107,9 @@ urlForm.addEventListener("submit", async function (event) {
                   );
                   progressDescEle.textContent = "Extracting audio";
                 }
+                if (status) {
+                  progressDescEle.textContent = status;
+                }
               } catch (e) {
                 console.log("parseerrror:", e);
               }
