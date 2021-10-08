@@ -12,14 +12,15 @@ const downloadSampleButton = document.getElementById("download-sample");
 
 const wavesurfer = WaveSurfer.create({
   container: "#waveform",
-  waveColor: "violet",
-  height: 200,
-  progressColor: "purple",
+  waveColor: "#eeeeee",
+  height: 300,
+  progressColor: "#ffc8bb",
   backend: "MediaElement",
   normalize: true,
   interact: false,
   minPxPerSec: 30,
   autoCenter: false,
+  cursorColor: "red",
   plugins: [RegionPlugin.create(), ZoomToMousePlugin.create()],
 });
 
@@ -29,11 +30,22 @@ wavesurfer.on("region-click", function (region, e) {
 });
 
 wavesurfer.on("waveform-ready", function (e) {
-  console.log("e:", e);
+  progressCont.hidden = true;
 });
 
+let isCtrlKeyPressed = false;
+
+document.addEventListener("keydown", function onEvent(event) {
+  console.log("event:", event);
+  console.log("event.key:", event.key);
+  if (event.key === " ") {
+    wavesurfer.playPause();
+  } else if (event.key === "Control") {
+    isCtrlKeyPressed = true;
+    // Open Menu...
+  }
+});
 // playButton.addEventListener("click", () => {
-//   wavesurfer.playPause();
 // });
 
 // downloadSampleButton.addEventListener("click", () => {
@@ -130,7 +142,6 @@ urlForm.addEventListener("submit", async function (event) {
       return new Response(stream).text();
     })
     .then((result) => {
-      console.log("result:", result);
       const data = result.split('"}');
       return {
         media: JSON.parse(data[0] + `"}`),
@@ -144,12 +155,10 @@ urlForm.addEventListener("submit", async function (event) {
           `url(${media.thumbnail})`
         );
         document.body.classList.add("js-thumbnail-ready");
-        console.log(
-          document.documentElement.style.getProperty("--thumbnail-image-url")
-        );
       }
       // load peaks into wavesurfer.js
-      wavesurfer.load(`http://localhost:4000/${media.id}.wav`, peaks);
+      // wavesurfer.load(`http://localhost:4000/${media.id}.wav`, peaks);
+      wavesurfer.load(`http://localhost:4000/${"4aeETEoNfOg"}.wav`, peaks);
     })
     .catch((e) => {
       console.error("error", e);
@@ -177,6 +186,7 @@ ctx.lineWidth = 3;
 let offsetX = left;
 let offsetY = top;
 let startX = 0;
+let seekX = 0;
 let startY = 0;
 let mouseX = 0;
 let mouseY = 0;
@@ -185,26 +195,41 @@ function round(value, decimals) {
   return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
 }
 
+function getStartTime(clickX) {
+  const duration = wavesurfer.getDuration();
+
+  const startPercentX =
+    (clickX + wavesurfer.container.firstChild.scrollLeft) /
+    wavesurfer.container.firstChild.scrollWidth; // 0 to 1 range, 0 = start, 1 = end
+  const startTime = duration * startPercentX;
+
+  return startTime;
+}
+
 wavesurfer.container.addEventListener("click", function (e) {
   maybeDoubleClickDragging = true;
   wavesurfer.container.removeEventListener("mousemove", handleMousemove);
+
+  if (isCtrlKeyPressed) {
+    seekX = parseInt(e.clientX - offsetX);
+    const duration = wavesurfer.getDuration();
+
+    const startTime = getStartTime(seekX);
+    console.log("startTime:", startTime);
+
+    wavesurfer.seekTo(startTime / duration);
+    isCtrlKeyPressed = false;
+  }
 
   if (mouseX > 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     const duration = wavesurfer.getDuration();
-
-    const waveFormContainerScrollLeft =
-      wavesurfer.container.firstChild.scrollLeft; // the <wave />
-    const waveFormContainerScrollWidth =
-      wavesurfer.container.firstChild.scrollWidth; // the <wave />
-
-    const startPercentX =
-      (startX + waveFormContainerScrollLeft) / waveFormContainerScrollWidth; // 0 to 1 range, 0 = start, 1 = end
-    const startTime = duration * startPercentX;
+    const startTime = getStartTime(startX);
 
     const startPercentX2 =
-      (mouseX + waveFormContainerScrollLeft) / waveFormContainerScrollWidth; // 0 to 1 range, 0 = start, 1 = end
+      (mouseX + wavesurfer.container.firstChild.scrollLeft) /
+      wavesurfer.container.firstChild.scrollWidth; // 0 to 1 range, 0 = start, 1 = end
     const endTime = duration * startPercentX2;
 
     wavesurfer.addRegion({
@@ -274,7 +299,7 @@ function handleMousemove(e) {
 
     // draw a new rect from the start position
     // to the current mouse position
-    ctx.strokeRect(startX, 0, width, 200);
+    ctx.strokeRect(startX, 0, width, 300);
 
     return;
   }
