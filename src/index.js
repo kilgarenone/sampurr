@@ -236,6 +236,8 @@ wavesurfer.container.addEventListener("click", function (e) {
       end: round(endTime, 3),
     });
 
+    downloadSampleForm.hidden = false;
+
     mouseX = 0;
   }
 });
