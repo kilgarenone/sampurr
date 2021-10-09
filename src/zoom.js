@@ -32,9 +32,9 @@ export class ZoomToMousePlugin {
       this.wavesurfer.params.scrollParent = true;
     }
     this.wavesurfer.drawBuffer();
-    // this.wavesurfer.drawer.progress(
-    //   this.wavesurfer.backend.getPlayedPercents()
-    // );
+    this.wavesurfer.drawer.progress(
+      this.wavesurfer.backend.getPlayedPercents()
+    );
     this.wavesurfer.drawer.recenter(this.mouseDuration);
     this.wavesurfer.fireEvent("zoom", pxPerSec);
   }

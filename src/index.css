@@ -56,7 +56,7 @@ html {
 
 @keyframes blur {
   to {
-    filter: blur(10px) brightness(50%);
+    filter: blur(6px) brightness(50%);
   }
 }
 
@@ -68,28 +68,37 @@ body {
   justify-content: center;
   align-items: center;
 
+  &::before {
+    will-change: filter;
+    content: "";
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: var(--thumbnail-image-url);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: -10px;
+  }
+
   &.js-thumbnail-ready {
     &::before {
-      will-change: filter;
       animation: blur 6s linear forwards;
-      content: "";
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-image: var(--thumbnail-image-url);
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      margin: -10px;
     }
+  }
 
-    & #progress {
-      color: #fbfbfbcf;
-    }
-
+  &.js-in-app {
     & #progress-value {
+      color: #ffffffc9;
+
+      &::after {
+        color: #ffffff94;
+      }
+    }
+
+    & #progress-desc {
       color: #ffffff94;
     }
   }
@@ -120,12 +129,24 @@ body {
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
 }
 
 .wavesurfer-region {
   z-index: 3 !important;
+}
+
+.wavesurfer-handle-start,
+.wavesurfer-handle-end {
+  width: 15px !important;
+  background-color: transparent !important;
+}
+.wavesurfer-handle-start {
+  border-left: 2px solid #000 !important;
+}
+.wavesurfer-handle-end {
+  border-right: 2px solid #000 !important;
 }
 
 .url-label {
@@ -202,13 +223,12 @@ body {
   & .url-field {
     margin-top: 0;
     border-radius: 3.5em;
-    padding-right: 45px;
+    padding-right: 60px;
     padding-left: 20px;
     height: 100%;
     font-size: 16px;
     background-color: #00000024;
     color: #e7ebeef0;
-    border-radius: 0.4em;
     border: 0;
   }
 }
@@ -217,8 +237,8 @@ body {
   background: linear-gradient(
     216deg,
     rgba(255, 255, 255, 1) 0%,
-    rgba(255, 214, 214, 1) 11%,
-    rgba(57, 0, 111, 1) 33%
+    rgba(255, 214, 214, 1) 8%,
+    rgba(76, 0, 148, 1) 37%
   );
   color: white;
   border-radius: 0.5em;
