@@ -85,7 +85,7 @@ body {
 
   &.js-thumbnail-ready {
     &::before {
-      animation: blur 6s linear forwards;
+      animation: blur 7s linear forwards;
     }
   }
 

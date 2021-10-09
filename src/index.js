@@ -78,6 +78,8 @@ miniUrlForm.addEventListener("submit", async function (event) {
   progressDescEle.textContent = "";
 
   wavesurfer.empty();
+  wavesurfer.setCursorColor("transparent");
+
   // document.body.classList.remove("js-thumbnail-ready");
 
   progressCont.hidden = false;
@@ -118,7 +120,13 @@ function fetchWaveform(url) {
                     "--thumbnail-image-url",
                     `url(${thumbnail})`
                   );
-                  document.body.classList.add("js-thumbnail-ready");
+
+                  document.body.classList.remove("js-thumbnail-ready");
+                  setTimeout(() => {
+                    document.body.classList.add("js-thumbnail-ready");
+                  }, 2000);
+                  document.body.classList.add("js-in-app");
+
                   progressDescEle.textContent = "Extracting audio";
                 }
                 if (status) {
@@ -147,19 +155,27 @@ function fetchWaveform(url) {
       };
     })
     .then(({ media, peaks }) => {
-      if (media.thumbnail) {
-        document.documentElement.style.setProperty(
-          "--thumbnail-image-url",
-          `url(${media.thumbnail})`
-        );
-        document.body.classList.add("js-thumbnail-ready");
-      }
+      // if (media.thumbnail) {
+      //   document.body.classList.remove("js-thumbnail-ready");
+
+      //   document.documentElement.style.setProperty(
+      //     "--thumbnail-image-url",
+      //     `url(${media.thumbnail})`
+      //   );
+
+      //   setTimeout(() => {
+      //     document.body.classList.add("js-thumbnail-ready");
+      //   }, 3000);
+      //   document.body.classList.add("js-in-app");
+      // }
 
       downloadSampleForm.reset();
       miniUrlForm.reset();
 
       // unblur so user can start using keyboard shoftcut unaffected
       document.activeElement.blur();
+
+      wavesurfer.setCursorColor("red");
 
       MEDIA_ID = media.id;
       // load peaks into wavesurfer.js
