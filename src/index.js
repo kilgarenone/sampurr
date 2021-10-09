@@ -4,6 +4,7 @@ import RegionPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions.min.js";
 import "./index.css";
 
 const urlForm = document.getElementById("url-form");
+const miniUrlForm = document.getElementById("mini-url-form");
 const progressValueEle = document.getElementById("progress-value");
 const progressDescEle = document.getElementById("progress-desc");
 const progressCont = document.getElementById("progress");
@@ -35,8 +36,6 @@ wavesurfer.on("waveform-ready", function (e) {
 let isCtrlKeyPressed = false;
 
 document.addEventListener("keydown", function onEvent(event) {
-  console.log("event:", event);
-  console.log("event.key:", event.key);
   if (event.key === " ") {
     wavesurfer.playPause();
   } else if (event.key === "Control") {
@@ -63,31 +62,34 @@ downloadSampleForm.addEventListener("submit", (event) => {
   const a = document.createElement("a");
   a.style = "display: none";
   document.body.appendChild(a);
-  a.href = `http://localhost:4000/download?start=${region.start}&end=${region.end}&title=${sampleName}`;
+  a.href = `http://localhost:4000/download?start=${region.start}&end=${region.end}&title=${sampleName}&id=${MEDIA_ID}`;
   a.download = `${sampleName}.wav`;
   a.click();
   a.remove();
 });
 
 const decoder = new TextDecoder();
+let MEDIA_ID = "";
 
-urlForm.addEventListener("submit", async function (event) {
+miniUrlForm.addEventListener("submit", async function (event) {
   event.preventDefault();
 
-  this.classList.add("js-hide");
+  progressValueEle.textContent = 0;
+  progressDescEle.textContent = "";
 
-  setTimeout(() => {
-    this.hidden = true;
-  }, 300);
+  wavesurfer.empty();
+  // document.body.classList.remove("js-thumbnail-ready");
 
   progressCont.hidden = false;
   progressCont.classList.add("js-show");
 
-  document.getElementById("mini-url-form").classList.add("js-show");
-
   const data = new FormData(event.target);
 
-  fetch(`http://localhost:4000/waveform?url=${data.get("url")}`)
+  await fetchWaveform(data.get("url"));
+});
+
+function fetchWaveform(url) {
+  return fetch(`http://localhost:4000/waveform?url=${url}`)
     .then((response) => response.body)
     .then((rb) => {
       const reader = rb.getReader();
@@ -100,7 +102,6 @@ urlForm.addEventListener("submit", async function (event) {
             reader.read().then(({ done, value }) => {
               // If there is no more data to read
               if (done) {
-                console.log("done", done);
                 controller.close();
                 return;
               }
@@ -123,9 +124,7 @@ urlForm.addEventListener("submit", async function (event) {
                 if (status) {
                   progressDescEle.textContent = status;
                 }
-              } catch (e) {
-                console.log("parseerrror:", e);
-              }
+              } catch (e) {}
               // Get the data and send it to the browser via the controller
 
               push();
@@ -155,13 +154,40 @@ urlForm.addEventListener("submit", async function (event) {
         );
         document.body.classList.add("js-thumbnail-ready");
       }
+
+      downloadSampleForm.reset();
+      miniUrlForm.reset();
+
+      // unblur so user can start using keyboard shoftcut unaffected
+      document.activeElement.blur();
+
+      MEDIA_ID = media.id;
       // load peaks into wavesurfer.js
-      // wavesurfer.load(`http://localhost:4000/${media.id}.wav`, peaks);
-      wavesurfer.load(`http://localhost:4000/${"4aeETEoNfOg"}.wav`, peaks);
+      wavesurfer.load(`http://localhost:4000/${MEDIA_ID}.wav`, peaks);
+      // wavesurfer.load(`http://localhost:4000/${"4aeETEoNfOg"}.wav`, peaks);
     })
     .catch((e) => {
       console.error("error", e);
     });
+}
+
+urlForm.addEventListener("submit", async function (event) {
+  event.preventDefault();
+
+  this.classList.add("js-hide");
+
+  setTimeout(() => {
+    this.hidden = true;
+  }, 300);
+
+  progressCont.hidden = false;
+  progressCont.classList.add("js-show");
+
+  document.getElementById("mini-url-form").classList.add("js-show");
+
+  const data = new FormData(event.target);
+
+  await fetchWaveform(data.get("url"));
 });
 
 let isDown = false;
@@ -180,8 +206,8 @@ canvas.height = height;
 wavesurfer.container.appendChild(canvas);
 
 const ctx = canvas.getContext("2d");
-ctx.strokeStyle = "blue";
-ctx.lineWidth = 3;
+ctx.strokeStyle = "#000";
+ctx.lineWidth = 2;
 let offsetX = left;
 let offsetY = top;
 let startX = 0;
@@ -214,7 +240,6 @@ wavesurfer.container.addEventListener("click", function (e) {
     const duration = wavesurfer.getDuration();
 
     const startTime = getStartTime(seekX);
-    console.log("startTime:", startTime);
 
     wavesurfer.seekTo(startTime / duration);
     isCtrlKeyPressed = false;
@@ -239,6 +264,7 @@ wavesurfer.container.addEventListener("click", function (e) {
     downloadSampleForm.hidden = false;
 
     mouseX = 0;
+    isCtrlKeyPressed = false;
   }
 });
 
@@ -300,7 +326,7 @@ function handleMousemove(e) {
 
     // draw a new rect from the start position
     // to the current mouse position
-    ctx.strokeRect(startX, 0, width, 300);
+    ctx.strokeRect(startX, -10, width, 300);
 
     return;
   }
