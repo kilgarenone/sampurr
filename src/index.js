@@ -7,13 +7,12 @@ const urlForm = document.getElementById("url-form");
 const progressValueEle = document.getElementById("progress-value");
 const progressDescEle = document.getElementById("progress-desc");
 const progressCont = document.getElementById("progress");
-// const playButton = document.getElementById("play");
-const downloadSampleButton = document.getElementById("download-sample");
+const downloadSampleForm = document.getElementById("download-sample-form");
 
 const wavesurfer = WaveSurfer.create({
   container: "#waveform",
   waveColor: "#eeeeee",
-  height: 300,
+  height: 250,
   progressColor: "#ffc8bb",
   backend: "MediaElement",
   normalize: true,
@@ -45,30 +44,30 @@ document.addEventListener("keydown", function onEvent(event) {
     // Open Menu...
   }
 });
-// playButton.addEventListener("click", () => {
-// });
 
-// downloadSampleButton.addEventListener("click", () => {
-//   const region = Object.keys(wavesurfer.regions.list).map((id) => {
-//     const region = wavesurfer.regions.list[id];
-//     return {
-//       start: region.start,
-//       end: region.end,
-//     };
-//   })[0];
+downloadSampleForm.addEventListener("submit", (event) => {
+  const data = new FormData(event.target);
 
-//   // note: Fetch API won't prompt the 'Save as' dialog!
-//   // read more: https://medium.com/@drevets/you-cant-prompt-a-file-download-with-the-content-disposition-header-using-axios-xhr-sorry-56577aa706d6
-//   const a = document.createElement("a");
-//   a.style = "display: none";
-//   document.body.appendChild(a);
-//   // TODO: custom sample's title
-//   a.href = `http://localhost:4000/download?start=${region.start}&end=${region.end}&title=noshit`;
-//   // TODO: need to match the title above
-//   a.download = "noshit.wav";
-//   a.click();
-//   a.remove();
-// });
+  const sampleName = data.get("sample-name") || "sample";
+
+  const region = Object.keys(wavesurfer.regions.list).map((id) => {
+    const region = wavesurfer.regions.list[id];
+    return {
+      start: region.start,
+      end: region.end,
+    };
+  })[0];
+
+  // note: Fetch API won't prompt the 'Save as' dialog!
+  // read more: https://medium.com/@drevets/you-cant-prompt-a-file-download-with-the-content-disposition-header-using-axios-xhr-sorry-56577aa706d6
+  const a = document.createElement("a");
+  a.style = "display: none";
+  document.body.appendChild(a);
+  a.href = `http://localhost:4000/download?start=${region.start}&end=${region.end}&title=${sampleName}`;
+  a.download = `${sampleName}.wav`;
+  a.click();
+  a.remove();
+});
 
 const decoder = new TextDecoder();
 
@@ -111,7 +110,7 @@ urlForm.addEventListener("submit", async function (event) {
               // Check chunks by logging to the console
               try {
                 const { title, thumbnail, duration, percent, data, status } =
-                  JSON.parse(decoder.decode(value));
+                  JSON.parse(decoder.decode(value, { stream: true }));
                 if (percent) progressValueEle.textContent = percent;
                 if (thumbnail) {
                   document.documentElement.style.setProperty(

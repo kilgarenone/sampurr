@@ -176,7 +176,7 @@ body {
   top: 1rem;
   right: 1rem;
   font-size: 16px;
-  width: 400px;
+  width: 300px;
   height: 60px;
   transition: opacity 0.5s;
   transition-delay: 0.7s;
@@ -195,11 +195,14 @@ body {
 
   & .url-field {
     border-radius: 3.5em;
-    margin-bottom: 0;
     padding-right: 45px;
     padding-left: 20px;
     height: 100%;
     font-size: 16px;
+    background-color: #00000024;
+    color: #e7ebeef0;
+    border-radius: 0.4em;
+    border: 0;
   }
 }
 
@@ -280,4 +283,34 @@ button {
     color: grey;
     background-color: #ddd;
   } */
+}
+
+#download-sample-form {
+  position: absolute;
+  bottom: 15%;
+  display: flex;
+}
+
+.download-sample-input-field {
+  font-size: 1.5rem;
+  background: #ffffff36;
+  padding: 0.4em 1em;
+  border-radius: 0.3em;
+  color: white;
+  margin-right: 0.35em;
+}
+
+.download-sample-btn {
+  color: white;
+  border-radius: 0.3em;
+  font-size: 1.5rem;
+  padding: 0.4em;
+  background: linear-gradient(
+    19deg,
+    rgba(255, 255, 0, 1) 0%,
+    rgba(183, 97, 255, 1) 23%,
+    rgba(0, 188, 212, 1) 50%,
+    rgba(89, 255, 160, 1) 63%,
+    rgba(238, 130, 238, 1) 100%
+  );
 }
