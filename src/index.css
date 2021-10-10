@@ -33,7 +33,8 @@ select {
   --ratio: 1.5;
   --font-plain: -apple-system, blinkmacsystemfont, "Segoe UI", roboto,
     oxygen-sans, ubuntu, cantarell, "Helvetica Neue", sans-serif;
-  --font-special: "Times New Roman", "Times", serif;
+  --font-special: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New";
   --color-dark: #0b0c0c;
   --color-darkish: #404040;
   --color-lightish: #e6e6e6;
@@ -85,7 +86,7 @@ body {
 
   &.js-thumbnail-ready {
     &::before {
-      animation: blur 7s linear forwards;
+      animation: blur 5s linear forwards;
     }
   }
 
@@ -235,13 +236,10 @@ body {
 
 .url-submit-btn {
   background: linear-gradient(
-    226deg,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 255, 255, 1) 4%,
-    rgba(119, 0, 231, 1) 22%,
-    rgba(113, 185, 0, 1) 34%,
-    rgba(112, 0, 212, 1) 74%,
-    rgba(163, 0, 255, 1) 91%
+    34deg,
+    rgba(68, 3, 244, 1) 1%,
+    rgba(174, 37, 174, 1) 75%,
+    rgba(255, 255, 255, 1) 97%
   );
   color: white;
   border-radius: 0.5em;
@@ -272,8 +270,10 @@ body {
 
 #progress-value {
   font-size: 7rem;
+  font-family: var(--font-special);
   min-height: 168px;
   position: relative;
+  transition: color 4s;
 
   &::after {
     content: "%";
@@ -281,10 +281,12 @@ body {
     top: 0.6em;
     right: 3.5em;
     font-size: 3rem;
+    transition: color 4s;
   }
 }
 
 #progress-desc {
+  transition: color 4s;
   font-size: 3rem;
   font-weight: 600;
   min-height: 72px;
