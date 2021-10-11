@@ -1,0 +1,45 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  margin: 0;
+  padding: 0;
+  border: 0 solid;
+  background-color: inherit;
+  font-family: inherit;
+  color: inherit;
+}
+
+/* Make images easier to work with */
+img {
+  max-width: 100%;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+button,
+input,
+select {
+  color: inherit;
+  font: inherit;
+}
+
+/* WebKit and Chromiums */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: #0000000d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0000002e;
+  border-radius: 5px;
+}
+
+html {
+  scrollbar-color: #0000002e #0000000d;
+  scrollbar-width: thin;
+}

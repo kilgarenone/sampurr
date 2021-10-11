@@ -1,0 +1,15 @@
+.wavesurfer-region {
+  z-index: 3 !important;
+}
+
+.wavesurfer-handle-start,
+.wavesurfer-handle-end {
+  width: 15px !important;
+  background-color: transparent !important;
+}
+.wavesurfer-handle-start {
+  border-left: 2px solid #000 !important;
+}
+.wavesurfer-handle-end {
+  border-right: 2px solid #000 !important;
+}

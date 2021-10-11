@@ -1,7 +1,11 @@
-import { ZoomToMousePlugin } from "./zoom.js";
 import WaveSurfer from "wavesurfer.js";
 import RegionPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions.min.js";
-import "./index.css";
+import { ZoomToMousePlugin } from "./zoom.js";
+import { getStartTime, round } from "./functions.js";
+
+import "./css/reset.css";
+import "./css/wavesurfer.css";
+import "./css/index.css";
 
 const urlForm = document.getElementById("url-form");
 const miniUrlForm = document.getElementById("mini-url-form");
@@ -53,14 +57,14 @@ let mouseY = 0;
 
 wavesurfer.on("region-click", function (region, e) {
   e.stopPropagation();
-  e.shiftKey ? region.playLoop() : region.play();
+  region.play();
 });
 
 wavesurfer.on("waveform-ready", function (e) {
   progressCont.hidden = true;
 });
 
-document.addEventListener("keydown", function onEvent(event) {
+document.addEventListener("keydown", function (event) {
   if (event.key === " ") {
     wavesurfer.playPause();
   } else if (event.key === "Control") {
@@ -102,7 +106,6 @@ miniUrlForm.addEventListener("submit", async function (event) {
   wavesurfer.clearRegions();
   wavesurfer.setCursorColor("transparent");
 
-  // document.body.classList.remove("js-thumbnail-ready");
   downloadSampleForm.hidden = true;
 
   progressCont.hidden = false;
@@ -110,9 +113,9 @@ miniUrlForm.addEventListener("submit", async function (event) {
 
   const data = new FormData(event.target);
 
-  const response = await fetchWaveform(data.get("url"));
+  // const response = await fetchWaveform(data.get("url"));
 
-  processAndSetupWaveform(response);
+  // processAndSetupWaveform(response);
 });
 
 const decoder = new TextDecoder();
@@ -173,6 +176,8 @@ function processAndSetupWaveform(chunks) {
   downloadSampleForm.reset();
   miniUrlForm.reset();
 
+  miniUrlForm.classList.add("js-show");
+
   // unblur so user can start using keyboard shoftcut unaffected
   document.activeElement.blur();
 
@@ -195,29 +200,12 @@ urlForm.addEventListener("submit", async function (event) {
   progressCont.hidden = false;
   progressCont.classList.add("js-show");
 
-  document.getElementById("mini-url-form").classList.add("js-show");
-
   const data = new FormData(event.target);
 
   const response = await fetchWaveform(data.get("url"));
 
   processAndSetupWaveform(response);
 });
-
-function round(value, decimals) {
-  return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
-}
-
-function getStartTime(clickX) {
-  const duration = wavesurfer.getDuration();
-
-  const startPercentX =
-    (clickX + wavesurfer.container.firstChild.scrollLeft) /
-    wavesurfer.container.firstChild.scrollWidth; // 0 to 1 range, 0 = start, 1 = end
-  const startTime = duration * startPercentX;
-
-  return startTime;
-}
 
 wavesurfer.container.addEventListener("click", function (e) {
   maybeDoubleClickDragging = true;
@@ -227,7 +215,7 @@ wavesurfer.container.addEventListener("click", function (e) {
     seekX = parseInt(e.clientX - offsetX);
     const duration = wavesurfer.getDuration();
 
-    const startTime = getStartTime(seekX);
+    const startTime = getStartTime(seekX, wavesurfer);
 
     wavesurfer.seekTo(startTime / duration);
     isCtrlKeyPressed = false;
@@ -237,7 +225,7 @@ wavesurfer.container.addEventListener("click", function (e) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     const duration = wavesurfer.getDuration();
-    const startTime = getStartTime(startX);
+    const startTime = getStartTime(startX, wavesurfer);
 
     const startPercentX2 =
       (mouseX + wavesurfer.container.firstChild.scrollLeft) /
