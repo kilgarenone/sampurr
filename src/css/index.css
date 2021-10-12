@@ -37,6 +37,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-image: var(--thumbnail-image-url);
+    /* background-color: #cacccb; */
     will-change: filter;
   }
 
@@ -84,29 +85,9 @@ body {
   pointer-events: none;
 }
 
-.url-label {
-  font-size: 1em;
-  font-weight: 600;
-}
-
-.url-field {
-  margin-top: 8px;
-  border: 0.2em solid #00000052;
-  border-radius: 0.5em;
-  padding: 0 0.5em;
-  font-size: 0.82em;
-  font-weight: 600;
-  height: 3.5em;
-  margin-bottom: 1.05em;
-
-  &:focus {
-    border-color: #000000c2;
-  }
-}
-
 #url-form {
   max-width: 600px;
-  font-size: 30px;
+  font-size: 20px;
   transition: opacity 0.3s;
   opacity: 1;
   position: absolute;
@@ -114,6 +95,41 @@ body {
   &.js-hide {
     animation: 0.3s fadeOut;
     animation-fill-mode: forwards;
+  }
+}
+
+.url-field {
+  margin-top: 8px;
+  border: 0.2em solid #00000085;
+  border-radius: 0.5em;
+  padding: 0 0.5em;
+  font-size: 1.1em;
+  font-weight: 600;
+  height: 3.5em;
+  margin-bottom: 2.05em;
+
+  &:focus {
+    border-color: #000000c2;
+  }
+}
+
+.url-label {
+  font-size: 0.9em;
+  font-weight: 600;
+}
+
+.url-submit-btn {
+  font-weight: 600;
+  font-size: 1.1em;
+  width: 100%;
+  border-radius: 1.5em;
+  padding: 0.7em 1em;
+  background-color: black;
+  color: #fff;
+
+  &:active {
+    /* background: #cacccb;
+    box-shadow: inset 7px 7px 14px #acadad, inset -7px -7px 14px #e8ebe9; */
   }
 }
 
@@ -142,9 +158,6 @@ body {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  font-size: 19px;
-  width: 300px;
-  height: 60px;
   transition: opacity 0.5s;
   transition-delay: 0.7s;
 
@@ -158,6 +171,9 @@ body {
     position: absolute;
     right: 0;
     top: 0;
+    width: auto;
+    box-shadow: none;
+    height: 100%;
 
     & svg {
       vertical-align: middle;
@@ -174,18 +190,6 @@ body {
     color: #ffffffed;
     border: 0;
   }
-}
-
-.url-submit-btn {
-  background: linear-gradient(
-    34deg,
-    rgb(143, 0, 47) 1%,
-    rgba(174, 37, 174, 1) 75%,
-    rgba(255, 255, 255, 1) 97%
-  );
-  color: white;
-  border-radius: 0.5em;
-  padding: 0.5em 1em;
 }
 
 #progress {
