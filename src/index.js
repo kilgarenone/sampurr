@@ -91,7 +91,7 @@ downloadSampleForm.addEventListener("submit", (event) => {
   a.style = "display: none";
   document.body.appendChild(a);
   a.href = `http://localhost:4000/download?start=${region.start}&end=${region.end}&title=${sampleName}&id=${MEDIA_ID}`;
-  a.download = `${sampleName}.wav`;
+  a.download = `${sampleName}.flac`;
   a.click();
   a.remove();
 });
@@ -185,7 +185,7 @@ function processAndSetupWaveform(chunks) {
 
   MEDIA_ID = media.id;
   // load peaks into wavesurfer.js
-  wavesurfer.load(`http://localhost:4000/${MEDIA_ID}.wav`, peaks);
+  wavesurfer.load(`http://localhost:4000/${MEDIA_ID}.flac`, peaks);
 }
 
 urlForm.addEventListener("submit", async function (event) {
