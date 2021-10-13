@@ -90,7 +90,9 @@ downloadSampleForm.addEventListener("submit", (event) => {
   const a = document.createElement("a");
   a.style = "display: none";
   document.body.appendChild(a);
-  a.href = `http://localhost:4000/download?start=${region.start}&end=${region.end}&title=${sampleName}&id=${MEDIA_ID}`;
+  a.href = `http://localhost:4000/download?start=${region.start}&end=${
+    region.end + 0.05
+  }&title=${sampleName}&id=${MEDIA_ID}`;
   a.download = `${sampleName}.wav`;
   a.click();
   a.remove();
@@ -233,8 +235,8 @@ wavesurfer.container.addEventListener("click", function (e) {
     const endTime = duration * startPercentX2;
 
     wavesurfer.addRegion({
-      start: round(startTime, 3),
-      end: round(endTime, 3),
+      start: startTime,
+      end: endTime,
     });
 
     downloadSampleForm.hidden = false;
