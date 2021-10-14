@@ -272,28 +272,39 @@ button {
   position: absolute;
   bottom: 12%;
   display: flex;
+  font-size: 1.5rem;
 }
 
 .download-sample-input-field {
-  font-size: 1.5rem;
   background: #ffffff36;
-  padding: 0.4em 1em;
+  padding: 0.2em 1em;
   border-radius: 0.3em;
-  color: white;
+  color: #fff;
   margin-right: 0.35em;
 }
 
 .download-sample-btn {
-  color: white;
+  color: #fff;
   border-radius: 0.3em;
-  font-size: 1.5rem;
-  padding: 0.4em;
-  background: linear-gradient(
-    25deg,
-    rgba(255, 255, 0, 1) 0%,
-    rgba(137, 97, 255, 1) 22%,
-    rgba(0, 188, 212, 1) 50%,
-    rgba(191, 255, 68, 1) 75%,
-    rgba(255, 88, 198, 1) 100%
-  );
+  padding: 0.2em 0.9em;
+  border: 0.1em solid #fffc;
+  box-shadow: 0 0 0.1em #fff, 0 0.1em 0.2em #bc13fe, -0.1em 0.05em 1.5em #bc13fe,
+    inset 0 0 1.3em #bc13fe;
+
+  & span {
+    animation: pulsate 0.11s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes pulsate {
+  100% {
+    /* Larger blur radius */
+    text-shadow: 0 0 0.05em #fff, 0 0 0.1em #fff, 0 0 0.2em #ff00bf,
+      0 0 0.3em #ff00bf, 0 0 0.5em #f09, 0 0 0.8em #f09;
+  }
+  0% {
+    /* A slightly smaller blur radius */
+    text-shadow: 0 0 0.04em #fff, 0 0 0.05em #fff, 0 0 0.17em #ff00bf,
+      0 0 0.27em #ff00bf, 0 0 0.5em #f09, 0 0 0.3em #f09;
+  }
 }
