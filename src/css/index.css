@@ -153,6 +153,7 @@ body {
 }
 
 #mini-url-form {
+  font-size: 0.85rem;
   visibility: hidden;
   opacity: 0;
   position: absolute;

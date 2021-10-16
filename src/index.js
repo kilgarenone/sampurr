@@ -13,6 +13,7 @@ const progressValueEle = document.getElementById("progress-value");
 const progressDescEle = document.getElementById("progress-desc");
 const progressCont = document.getElementById("progress");
 const downloadSampleForm = document.getElementById("download-sample-form");
+const titleEle = document.getElementById("title");
 
 const wavesurfer = WaveSurfer.create({
   container: "#waveform",
@@ -142,6 +143,11 @@ async function fetchWaveform(url) {
 
       if (percent) {
         progressValueEle.textContent = percent;
+      }
+
+      // TODO:
+      if (title) {
+        titleEle.textContent =
       }
 
       if (thumbnail) {
