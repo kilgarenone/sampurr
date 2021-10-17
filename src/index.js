@@ -139,14 +139,17 @@ async function fetchWaveform(url) {
 
       result += chunk;
 
-      const { title, thumbnail, duration, percent, data, status } =
+      const { errorCode, title, thumbnail, duration, percent, data, status } =
         JSON.parse(chunk);
+
+      if (errorCode) {
+        progressDescEle.textContent = "☠️ Refresh your browser to try again ☠️";
+      }
 
       if (percent) {
         progressValueEle.textContent = percent;
       }
 
-      // TODO:
       if (title) {
         titleEle.textContent = title;
         titleEle.classList.add("js-show");
@@ -179,23 +182,27 @@ async function fetchWaveform(url) {
 }
 
 function processAndSetupWaveform(chunks) {
-  const data = chunks.split('"}');
-  const media = JSON.parse(data[0] + `"}`);
-  const peaks = JSON.parse(data[data.length - 1]).data;
+  try {
+    const data = chunks.split('"}');
+    const media = JSON.parse(data[0] + `"}`);
+    const peaks = JSON.parse(data[data.length - 1]).data;
 
-  downloadSampleForm.reset();
-  miniUrlForm.reset();
+    downloadSampleForm.reset();
+    miniUrlForm.reset();
 
-  miniUrlForm.classList.add("js-show");
+    miniUrlForm.classList.add("js-show");
 
-  // unblur so user can start using keyboard shoftcut unaffected
-  document.activeElement.blur();
+    // unblur so user can start using keyboard shoftcut unaffected
+    document.activeElement.blur();
 
-  wavesurfer.setCursorColor("red");
+    wavesurfer.setCursorColor("red");
 
-  MEDIA_ID = media.id;
-  // load peaks into wavesurfer.js
-  wavesurfer.load(`http://localhost:4000/${MEDIA_ID}.wav`, peaks);
+    MEDIA_ID = media.id;
+    // load peaks into wavesurfer.js
+    wavesurfer.load(`http://localhost:4000/${MEDIA_ID}.wav`, peaks);
+  } catch (error) {
+    console.log("error:", error);
+  }
 }
 
 urlForm.addEventListener("submit", async function (event) {
@@ -213,6 +220,7 @@ urlForm.addEventListener("submit", async function (event) {
   const data = new FormData(event.target);
 
   const response = await fetchWaveform(data.get("url"));
+  console.log("response:", response);
 
   processAndSetupWaveform(response);
 });

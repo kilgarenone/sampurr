@@ -208,8 +208,8 @@ body {
     visibility: hidden;
     opacity: 0;
     transition: opacity 1s;
-    background-color: #743e3e7d;
-    color: #f9ff38ba;
+    background-color: #6d56567d;
+    color: #ffc587a1;
     padding: 0.07em 0.25em;
 
     &.js-show {
@@ -300,7 +300,7 @@ button {
   position: absolute;
   bottom: 12%;
   display: flex;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 }
 
 .download-sample-input-field {
