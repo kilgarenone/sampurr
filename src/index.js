@@ -13,7 +13,7 @@ const progressValueEle = document.getElementById("progress-value");
 const progressDescEle = document.getElementById("progress-desc");
 const progressCont = document.getElementById("progress");
 const downloadSampleForm = document.getElementById("download-sample-form");
-const titleEle = document.getElementById("title");
+const titleEle = document.querySelector("#title > span");
 
 const wavesurfer = WaveSurfer.create({
   container: "#waveform",
@@ -113,12 +113,13 @@ miniUrlForm.addEventListener("submit", async function (event) {
 
   progressCont.hidden = false;
   progressCont.classList.add("js-show");
+  titleEle.classList.remove("js-show");
 
   const data = new FormData(event.target);
 
-  // const response = await fetchWaveform(data.get("url"));
+  const response = await fetchWaveform(data.get("url"));
 
-  // processAndSetupWaveform(response);
+  processAndSetupWaveform(response);
 });
 
 const decoder = new TextDecoder();
@@ -147,7 +148,8 @@ async function fetchWaveform(url) {
 
       // TODO:
       if (title) {
-        titleEle.textContent =
+        titleEle.textContent = title;
+        titleEle.classList.add("js-show");
       }
 
       if (thumbnail) {

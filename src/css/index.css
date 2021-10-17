@@ -189,7 +189,34 @@ body {
     padding-left: 20px;
     background-color: #26262633;
     color: #ffffffed;
-    border: 0;
+    border: 1px solid #b2b2c654;
+  }
+}
+
+#title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #dbbebe2b;
+  padding: 1rem;
+  max-width: 55%;
+  line-height: 1.7;
+
+  & span {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 1s;
+    background-color: #743e3e7d;
+    color: #f9ff38ba;
+    padding: 0.07em 0.25em;
+
+    &.js-show {
+      transition-delay: 2s;
+      opacity: 1;
+      visibility: visible;
+    }
   }
 }
 

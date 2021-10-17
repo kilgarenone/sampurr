@@ -3,6 +3,7 @@
 *::after {
   box-sizing: border-box;
   overflow-wrap: break-word;
+  word-break: break-word;
   margin: 0;
   padding: 0;
   border: 0 solid;
