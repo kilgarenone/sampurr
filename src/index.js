@@ -139,11 +139,18 @@ async function fetchWaveform(url) {
 
       result += chunk;
 
-      const { errorCode, title, thumbnail, duration, percent, data, status } =
-        JSON.parse(chunk);
+      const {
+        errorMessage,
+        title,
+        thumbnail,
+        duration,
+        percent,
+        data,
+        status,
+      } = JSON.parse(chunk);
 
-      if (errorCode) {
-        progressDescEle.textContent = "☠️ Refresh your browser to try again ☠️";
+      if (errorMessage) {
+        progressDescEle.innerHTML = errorMessage;
       }
 
       if (percent) {
