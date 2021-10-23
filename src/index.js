@@ -15,6 +15,9 @@ const progressCont = document.getElementById("progress");
 const downloadSampleForm = document.getElementById("download-sample-form");
 const titleEle = document.querySelector("#title > span");
 
+// const BASE_URL = "https://api.sampurr.com";
+const BASE_URL = "http://localhost:4000";
+
 const wavesurfer = WaveSurfer.create({
   container: "#waveform",
   waveColor: "#eeeeee",
@@ -73,6 +76,12 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
+document.addEventListener("keyup", function (event) {
+  if (event.key === "Control") {
+    isCtrlKeyPressed = false;
+  }
+});
+
 downloadSampleForm.addEventListener("submit", (event) => {
   const data = new FormData(event.target);
 
@@ -91,7 +100,7 @@ downloadSampleForm.addEventListener("submit", (event) => {
   const a = document.createElement("a");
   a.style = "display: none";
   document.body.appendChild(a);
-  a.href = `http://localhost:4000/download?start=${region.start}&end=${
+  a.href = `${BASE_URL}/download?start=${region.start}&end=${
     region.end + 0.05
   }&title=${sampleName}&id=${MEDIA_ID}`;
   a.download = `${sampleName}.wav`;
@@ -125,14 +134,17 @@ miniUrlForm.addEventListener("submit", async function (event) {
 const decoder = new TextDecoder();
 
 async function fetchWaveform(url) {
-  const response = await fetch(`http://localhost:4000/waveform?url=${url}`);
+  const response = await fetch(`${BASE_URL}/waveform?url=${url}`);
   const reader = response.body.getReader();
   let result = "";
+  let isThumbnailParsed = false;
 
   while (true) {
     const { done, value } = await reader.read();
 
-    if (done) return result;
+    if (done) {
+      return { isThumbnailParsed, chunks: result };
+    }
 
     try {
       const chunk = decoder.decode(value, { stream: true });
@@ -158,42 +170,56 @@ async function fetchWaveform(url) {
       }
 
       if (title) {
-        titleEle.textContent = title;
-        titleEle.classList.add("js-show");
+        setupTitle(title);
       }
 
       if (thumbnail) {
-        document.documentElement.style.setProperty(
-          "--thumbnail-image-url",
-          `url(${thumbnail})`
-        );
-
-        document.body.classList.add("js-in-app");
-
-        document.body.classList.remove("js-thumbnail-ready");
-
-        setTimeout(() => {
-          document.body.classList.add("js-thumbnail-ready");
-        }, 2500);
-
-        progressDescEle.textContent = "Extracting audio";
+        isThumbnailParsed = true;
+        setupThumbnail(thumbnail);
       }
 
       if (status) {
         progressDescEle.textContent = status;
       }
     } catch (e) {
-      console.log("e:", e);
+      // console.log("e:", e);
     }
   }
 }
 
-function processAndSetupWaveform(chunks) {
+function setupTitle(title) {
+  titleEle.textContent = title;
+  titleEle.classList.add("js-show");
+}
+
+function setupThumbnail(thumbnail) {
+  document.documentElement.style.setProperty(
+    "--thumbnail-image-url",
+    `url(${thumbnail})`
+  );
+
+  document.body.classList.add("js-in-app");
+
+  document.body.classList.remove("js-thumbnail-ready");
+
+  setTimeout(() => {
+    document.body.classList.add("js-thumbnail-ready");
+  }, 2500);
+
+  progressDescEle.textContent = "Extracting audio";
+}
+
+function processAndSetupWaveform({ isThumbnailParsed, chunks }) {
   try {
     const data = chunks.split('"}');
     const media = JSON.parse(data[0] + `"}`);
     const peaks = JSON.parse(data[data.length - 1]).data;
 
+    if (!isThumbnailParsed) {
+      console.log("isThumbnailParsed:", isThumbnailParsed);
+      setupThumbnail(media.thumbnail);
+      setupTitle(media.title);
+    }
     downloadSampleForm.reset();
     miniUrlForm.reset();
 
@@ -206,7 +232,7 @@ function processAndSetupWaveform(chunks) {
 
     MEDIA_ID = media.id;
     // load peaks into wavesurfer.js
-    wavesurfer.load(`http://localhost:4000/${MEDIA_ID}.wav`, peaks);
+    wavesurfer.load(`${BASE_URL}/${MEDIA_ID}.wav`, peaks);
   } catch (error) {
     console.log("error:", error);
   }
@@ -227,7 +253,6 @@ urlForm.addEventListener("submit", async function (event) {
   const data = new FormData(event.target);
 
   const response = await fetchWaveform(data.get("url"));
-  console.log("response:", response);
 
   processAndSetupWaveform(response);
 });
