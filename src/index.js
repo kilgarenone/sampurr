@@ -15,8 +15,8 @@ const progressCont = document.getElementById("progress");
 const downloadSampleForm = document.getElementById("download-sample-form");
 const titleEle = document.querySelector("#title > span");
 
-// const BASE_URL = "https://api.sampurr.com";
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = "https://api.sampurr.com";
+// const BASE_URL = "http://localhost:4000";
 
 const wavesurfer = WaveSurfer.create({
   container: "#waveform",

@@ -1,5 +1,5 @@
 :root {
-  --ratio: 1.5;
+  --ratio: 1.4;
   --font-plain: -apple-system, blinkmacsystemfont, "Segoe UI", roboto,
     oxygen-sans, ubuntu, cantarell, "Helvetica Neue", sans-serif;
   --font-special: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
@@ -268,8 +268,9 @@ body {
 }
 
 .error-desc {
-  font-size: 0.7em;
+  font-size: 0.65em;
   color: #8b8b8b;
+  margin-top: 0.5em;
 }
 
 input {
