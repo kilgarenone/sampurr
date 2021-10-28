@@ -8,20 +8,20 @@
     <script
       async
       defer
-      data-do-not-track="true"
       data-website-id="80271ea5-4cfe-4e5a-bed5-74eaf907156b"
-      src="https://sampurr-1984.herokuapp.com/umami.js"
+      src="https://sampurr-1984.herokuapp.com/umami-v0.1.js"
     ></script>
   </head>
   <body>
-    <h1 id="title"><span></span></h1>
-    <div id="waveform"></div>
-    <form id="mini-url-form">
+    <h1 hidden id="title"><span></span></h1>
+    <div hidden id="waveform"></div>
+    <form hidden id="mini-url-form">
       <input
         required
         class="url-field"
         name="url"
-        type="text"
+        type="url"
+        pattern="https://.*"
         placeholder="Enter new URL"
       />
       <button class="url-submit-btn" type="submit">
@@ -46,7 +46,8 @@
           id="url-field"
           class="url-field"
           name="url"
-          type="text"
+          type="url"
+          pattern="https://.*"
           placeholder="https://www.youtube.com/watch?v=4aeETEoNfOg"
         />
       </label>

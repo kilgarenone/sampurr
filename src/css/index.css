@@ -4,13 +4,15 @@
     oxygen-sans, ubuntu, cantarell, "Helvetica Neue", sans-serif;
   --font-special: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New";
-  --color-dark: #0b0c0c;
+  --color-dark: #1c1c1c;
+  --color-white: #eeeeee;
   --thumbnail-image-url: "";
 
   line-height: var(--ratio);
   font-size: 100%;
   font-family: var(--font-plain);
-  color: var(--color-dark);
+  background-color: var(--color-dark);
+  color: var(--color-white);
 }
 
 html {
@@ -107,6 +109,8 @@ body {
   font-weight: 600;
   height: 3.5em;
   margin-bottom: 2.05em;
+  color: var(--color-white);
+  background-color: #333333;
 
   &:focus {
     border-color: #000000c2;
@@ -121,11 +125,10 @@ body {
 .url-submit-btn {
   font-weight: 600;
   font-size: 1.1em;
-  width: 100%;
   border-radius: 1.5em;
   padding: 0.7em 1em;
-  background-color: black;
-  color: #fff;
+  background-color: #f7ff00;
+  color: var(--color-dark);
 
   &:active {
     /* background: #cacccb;
