@@ -13,7 +13,7 @@ const progressValueEle = document.getElementById("progress-value");
 const progressDescEle = document.getElementById("progress-desc");
 const progressCont = document.getElementById("progress");
 const downloadSampleForm = document.getElementById("download-sample-form");
-const titleEle = document.querySelector("#title > span");
+const titleEle = document.querySelector("#title");
 
 // const BASE_URL = "https://api.sampurr.com";
 const BASE_URL = "http://localhost:4000";
@@ -34,17 +34,19 @@ const wavesurfer = WaveSurfer.create({
 
 const canvas = document.createElement("canvas");
 canvas.id = "canvas";
+const ctx = canvas.getContext("2d");
+ctx.strokeStyle = "#000";
+ctx.lineWidth = 2;
 const { width, height, left, top } =
   wavesurfer.container.getBoundingClientRect();
 let offsetX = left;
 let offsetY = top;
 canvas.width = width;
 canvas.height = height;
-const ctx = canvas.getContext("2d");
-ctx.strokeStyle = "#000";
-ctx.lineWidth = 2;
 
 wavesurfer.container.appendChild(canvas);
+
+function setupSampleCanvas() {}
 
 let MEDIA_ID = "";
 let isCtrlKeyPressed = false;
@@ -58,6 +60,8 @@ let seekX = 0;
 let startY = 0;
 let mouseX = 0;
 let mouseY = 0;
+// let offsetX = 0;
+// let offsetY = 0;
 
 wavesurfer.on("region-click", function (region, e) {
   e.stopPropagation();
@@ -114,9 +118,7 @@ miniUrlForm.addEventListener("submit", async function (event) {
   progressValueEle.textContent = 0;
   progressDescEle.textContent = "Loading";
 
-  wavesurfer.empty();
-  wavesurfer.clearRegions();
-  wavesurfer.setCursorColor("transparent");
+  wavesurfer.container.classList.remove("js-show");
 
   downloadSampleForm.hidden = true;
 
@@ -216,10 +218,10 @@ function processAndSetupWaveform({ isThumbnailParsed, chunks }) {
     const peaks = JSON.parse(data[data.length - 1]).data;
 
     if (!isThumbnailParsed) {
-      console.log("isThumbnailParsed:", isThumbnailParsed);
       setupThumbnail(media.thumbnail);
       setupTitle(media.title);
     }
+
     downloadSampleForm.reset();
     miniUrlForm.reset();
 
@@ -231,6 +233,9 @@ function processAndSetupWaveform({ isThumbnailParsed, chunks }) {
     wavesurfer.setCursorColor("red");
 
     MEDIA_ID = media.id;
+
+    wavesurfer.container.classList.add("js-show");
+
     // load peaks into wavesurfer.js
     wavesurfer.load(`${BASE_URL}/${MEDIA_ID}.wav`, peaks);
   } catch (error) {
@@ -250,11 +255,11 @@ urlForm.addEventListener("submit", async function (event) {
   progressCont.hidden = false;
   progressCont.classList.add("js-show");
 
-  // const data = new FormData(event.target);
+  const data = new FormData(event.target);
 
-  // const response = await fetchWaveform(data.get("url"));
+  const response = await fetchWaveform(data.get("url"));
 
-  // processAndSetupWaveform(response);
+  processAndSetupWaveform(response);
 });
 
 wavesurfer.container.addEventListener("click", function (e) {
@@ -290,7 +295,6 @@ wavesurfer.container.addEventListener("click", function (e) {
     downloadSampleForm.hidden = false;
 
     mouseX = 0;
-    isCtrlKeyPressed = false;
   }
 });
 

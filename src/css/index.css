@@ -75,6 +75,15 @@ body {
   top: 30%;
   width: 100%;
   left: 0;
+  background: transparent;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s;
+
+  &.js-show {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 #canvas {
@@ -167,6 +176,7 @@ body {
   right: 1rem;
   transition: opacity 0.5s;
   transition-delay: 0.7s;
+  background: transparent;
 
   &.js-show {
     opacity: 1;
@@ -184,45 +194,37 @@ body {
 
     & svg {
       vertical-align: middle;
-      fill: #e7ebeef0;
+      fill: var(--color-white);
     }
   }
 
   & .url-field {
     margin: 0;
     border-radius: 3.5em;
-    padding-right: 60px;
-    padding-left: 20px;
-    background-color: #26262633;
-    color: #ffffffed;
+    padding-right: 3.5em;
+    padding-left: 1.5em;
+    background-color: #26262657;
     border: 1px solid #b2b2c654;
   }
 }
 
 #title {
   position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #dbbebe2b;
-  padding: 1rem;
+  top: 0.5em;
+  left: 0.5em;
+  font-size: 1.4rem;
   max-width: 60%;
-  line-height: 1.7;
+  background: transparent;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 2s;
+  color: #d19b60;
+  text-shadow: 1px 2px 0px black;
 
-  & span {
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 1s;
-    background-color: #6d56567d;
-    color: #ffc587a1;
-    padding: 0.07em 0.25em;
-
-    &.js-show {
-      transition-delay: 2s;
-      opacity: 1;
-      visibility: visible;
-    }
+  &.js-show {
+    transition-delay: 5s;
+    opacity: 1;
+    visibility: visible;
   }
 }
 
@@ -235,6 +237,7 @@ body {
   top: 20%;
   transition: color 0.5s;
   width: 100%;
+  background: transparent;
 
   &.js-show {
     animation: 0.3s fadeIn;
@@ -328,14 +331,19 @@ button {
   bottom: 12%;
   display: flex;
   font-size: 1.4rem;
+  background-color: transparent;
 }
 
 .download-sample-input-field {
   background: #ffffff36;
-  padding: 0.2em 1em;
+  padding: 0.5em 1em;
   border-radius: 0.3em;
   color: #fff;
   margin-right: 0.35em;
+
+  &::placeholder {
+    color: #ddd;
+  }
 }
 
 .download-sample-btn {
