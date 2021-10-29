@@ -250,11 +250,11 @@ urlForm.addEventListener("submit", async function (event) {
   progressCont.hidden = false;
   progressCont.classList.add("js-show");
 
-  const data = new FormData(event.target);
+  // const data = new FormData(event.target);
 
-  const response = await fetchWaveform(data.get("url"));
+  // const response = await fetchWaveform(data.get("url"));
 
-  processAndSetupWaveform(response);
+  // processAndSetupWaveform(response);
 });
 
 wavesurfer.container.addEventListener("click", function (e) {
