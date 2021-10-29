@@ -136,7 +136,9 @@ miniUrlForm.addEventListener("submit", async function (event) {
 const decoder = new TextDecoder();
 
 async function fetchWaveform(url) {
-  const response = await fetch(`${BASE_URL}/waveform?url=${url}`);
+  const response = await fetch(
+    `${BASE_URL}/waveform?url=${encodeURIComponent(url)}`
+  );
   const reader = response.body.getReader();
   let result = "";
   let isThumbnailParsed = false;
