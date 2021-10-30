@@ -39,27 +39,12 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-image: var(--thumbnail-image-url);
-    /* background-color: #cacccb; */
     will-change: filter;
   }
 
   &.js-thumbnail-ready {
     &::before {
       animation: blur 5s linear forwards;
-    }
-  }
-
-  &.js-in-app {
-    & #progress-value {
-      color: #ffffffc9;
-
-      &::after {
-        color: #ffffff94;
-      }
-    }
-
-    & #progress-desc {
-      color: #ffffff94;
     }
   }
 }
@@ -258,7 +243,7 @@ body {
   min-height: 168px;
   position: relative;
   transition: color 4s;
-  background-image: linear-gradient(45deg, #009fff, #00ffdb 45%, #1c1c1ce6);
+  background-image: linear-gradient(10deg, #7573b2, #f3f0ff 45%, #1c1c1ce6);
   color: #00ffdb;
   -webkit-text-fill-color: transparent;
   text-fill-color: transparent;
@@ -288,6 +273,7 @@ body {
   font-size: 3rem;
   font-weight: 600;
   min-height: 72px;
+  color: #ffffff94;
 }
 
 .error-desc {

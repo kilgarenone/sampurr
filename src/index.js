@@ -202,8 +202,6 @@ function setupThumbnail(thumbnail) {
     `url(${thumbnail})`
   );
 
-  document.body.classList.add("js-in-app");
-
   document.body.classList.remove("js-thumbnail-ready");
 
   setTimeout(() => {
@@ -261,7 +259,7 @@ urlForm.addEventListener("submit", async function (event) {
 
   const response = await fetchWaveform(data.get("url"));
 
-  processAndSetupWaveform(response);
+  // processAndSetupWaveform(response);
 });
 
 wavesurfer.container.addEventListener("click", function (e) {
