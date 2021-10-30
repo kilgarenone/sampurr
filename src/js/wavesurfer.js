@@ -62,7 +62,6 @@ function handleKeydown(event) {
 
 function handleKeyup(event) {
   if (event.key === "Control") {
-    console.log("Control:");
     state.isCtrlKeyPressed = false;
   }
 }
@@ -101,7 +100,5 @@ export function processAndSetupWaveform({ isThumbnailParsed, chunks }) {
 
     // load peaks into wavesurfer.js
     wavesurfer.load(`${BASE_URL}/${state.mediaID}.wav`, peaks);
-  } catch (error) {
-    console.log("error:", error);
-  }
+  } catch (error) {}
 }

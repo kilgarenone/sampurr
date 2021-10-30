@@ -64,9 +64,7 @@ export async function fetchWaveform(url) {
       if (status) {
         progressDescEle.textContent = status;
       }
-    } catch (e) {
-      // console.log("e:", e);
-    }
+    } catch (e) {}
   }
 }
 
