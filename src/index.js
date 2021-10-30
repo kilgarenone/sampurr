@@ -13,20 +13,20 @@ const progressValueEle = document.getElementById("progress-value");
 const progressDescEle = document.getElementById("progress-desc");
 const progressCont = document.getElementById("progress");
 const downloadSampleForm = document.getElementById("download-sample-form");
-const titleEle = document.querySelector("#title");
+const titleEle = document.getElementById("title");
 
 // const BASE_URL = "https://api.sampurr.com";
 const BASE_URL = "http://localhost:4000";
 
 const wavesurfer = WaveSurfer.create({
   container: "#waveform",
-  waveColor: "#eeeeee",
+  waveColor: "#eee",
   height: 250,
   progressColor: "#ffc8bb",
   backend: "MediaElement",
   normalize: true,
   interact: false,
-  minPxPerSec: 30,
+  minPxPerSec: 20,
   autoCenter: false,
   cursorColor: "red",
   plugins: [RegionPlugin.create(), ZoomToMousePlugin.create()],
@@ -46,8 +46,6 @@ canvas.height = height;
 
 wavesurfer.container.appendChild(canvas);
 
-function setupSampleCanvas() {}
-
 let MEDIA_ID = "";
 let isCtrlKeyPressed = false;
 let maybeDoubleClickDragging = false;
@@ -60,8 +58,6 @@ let seekX = 0;
 let startY = 0;
 let mouseX = 0;
 let mouseY = 0;
-// let offsetX = 0;
-// let offsetY = 0;
 
 wavesurfer.on("region-click", function (region, e) {
   e.stopPropagation();
@@ -259,7 +255,7 @@ urlForm.addEventListener("submit", async function (event) {
 
   const response = await fetchWaveform(data.get("url"));
 
-  // processAndSetupWaveform(response);
+  processAndSetupWaveform(response);
 });
 
 wavesurfer.container.addEventListener("click", function (e) {

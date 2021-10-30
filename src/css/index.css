@@ -21,7 +21,6 @@ html {
 
 body {
   height: 100%;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -34,7 +33,7 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
-    margin: -10px;
+    /* transform: scale(1.03); */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -280,6 +279,7 @@ body {
   font-size: 0.65em;
   color: #8b8b8b;
   margin-top: 0.4em;
+  margin-bottom: 1em;
 }
 
 input {
@@ -356,4 +356,12 @@ button {
     text-shadow: 0 0 0.04em #fff, 0 0 0.05em #fff, 0 0 0.17em #ff00bf,
       0 0 0.27em #ff00bf, 0 0 0.5em #f09, 0 0 0.3em #f09;
   }
+}
+
+details {
+  font-size: 1rem;
+  color: #ff3b3b;
+  overflow: auto;
+  text-align: left;
+  padding: 1em;
 }
