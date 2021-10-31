@@ -295,6 +295,12 @@ details {
   }
 }
 
+@media (prefers-reduced-motion) {
+  #download-sample-form span {
+    animation: none;
+  }
+}
+
 @keyframes pulsate {
   100% {
     /* Larger blur radius */
