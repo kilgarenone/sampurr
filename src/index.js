@@ -1,16 +1,17 @@
 import { BASE_URL } from "./const";
+import { initWavesurfer, processAndSetupWaveform } from "./js/wavesurfer";
+
 import "./css/index.css";
 import "./css/reset.css";
 import "./css/wavesurfer.css";
-import { initWavesurfer, processAndSetupWaveform } from "./js/wavesurfer";
-
-initWavesurfer();
 
 export const urlForm = document.getElementById("url-form");
 export const progressValueEle = document.getElementById("progress-value");
 export const progressDescEle = document.getElementById("progress-desc");
 export const progressCont = document.getElementById("progress");
 export const titleEle = document.getElementById("title");
+
+initWavesurfer();
 
 const decoder = new TextDecoder();
 

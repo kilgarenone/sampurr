@@ -17,7 +17,6 @@
     <form id="mini-url-form">
       <input
         required
-        class="url-field"
         name="url"
         type="url"
         pattern="https://.*"
@@ -39,32 +38,29 @@
     </form>
     <div id="waveform"></div>
     <form id="url-form">
-      <label class="url-label" for="url-field">
-        Enter URL
-        <input
-          required
-          id="url-field"
-          class="url-field"
-          name="url"
-          type="url"
-          pattern="https://.*"
-          placeholder="https://www.youtube.com/watch?v=4aeETEoNfOg"
-        />
-      </label>
-      <button class="url-submit-btn" type="submit">Start sampling</button>
+      <label for="url-field">Enter URL</label>
+      <input
+        required
+        id="url-field"
+        name="url"
+        type="url"
+        pattern="https://.*"
+        placeholder="https://www.youtube.com/watch?v=4aeETEoNfOg"
+      />
+      <button type="submit">Start sampling</button>
     </form>
     <div id="progress" hidden>
       <h1 id="progress-value">0</h1>
+      <span>%</span>
       <h2 id="progress-desc">Loading</h2>
     </div>
     <form id="download-sample-form" hidden>
       <input
-        class="download-sample-input-field"
         name="sample-name"
         type="text"
         placeholder="Enter sample name(optional)"
       />
-      <button class="download-sample-btn" type="submit">
+      <button type="submit">
         <span>Download</span>
       </button>
     </form>

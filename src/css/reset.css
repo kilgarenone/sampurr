@@ -2,14 +2,13 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  margin: 0;
-  padding: 0;
-  border: 0 solid;
   background-color: inherit;
   font-family: inherit;
   color: inherit;
+  overflow-wrap: break-word;
+  margin: 0;
+  padding: 0;
+  border: 0 solid;
 }
 
 /* Make images easier to work with */
@@ -22,10 +21,23 @@ img {
 }
 
 button,
-input,
-select {
+input {
   color: inherit;
   font: inherit;
+  appearance: none;
+}
+
+input {
+  width: 100%;
+}
+
+input:focus {
+  /* outline: 2px solid #e3e850; */
+}
+
+button {
+  display: inline-block;
+  cursor: pointer;
 }
 
 /* WebKit and Chromiums */

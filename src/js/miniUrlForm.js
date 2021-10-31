@@ -20,6 +20,7 @@ export function initMiniUrlForm() {
     wavesurfer.container.classList.remove("js-show");
     wavesurfer.empty();
     wavesurfer.clearRegions();
+    wavesurfer.zoom(false); // reset zoom
 
     sampleForm.hidden = true;
 
