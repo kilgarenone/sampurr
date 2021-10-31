@@ -5,7 +5,7 @@
   --font-special: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New";
   --color-dark: #1c1c1c;
-  --color-white: #eeeeee;
+  --color-white: #eee;
   --thumbnail-image-url: "";
 
   line-height: var(--ratio);
@@ -284,10 +284,10 @@ details {
   & button {
     color: #fff;
     border-radius: 0.3em;
-    padding: 0.2em 0.9em;
+    padding: 0.4em 0.9em;
     border: 0.1em solid #fffc;
-    box-shadow: 0 0 0.1em #aba9a9, 0 0em 0.2em #fe13c3cc,
-      -0.1em 0.1em 1.1em #bc13fe, inset 0 0 1.2em #bc13fe;
+    box-shadow: 0 0em 0.2em #fe13c3cc, -0.1em 0.1em 1.1em #bc13fe,
+      inset 0 0 1.2em #bc13fe;
 
     & span {
       animation: pulsate 0.1s ease-in-out infinite alternate;
