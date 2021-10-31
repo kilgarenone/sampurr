@@ -6,8 +6,9 @@
         "targets": {
           "esmodules": true
         },
-        "useBuiltIns": "usage",
-        "corejs": "3.6.5"
+        "useBuiltIns": "entry",
+        "corejs": "3.19",
+        "bugfixes": true
       }
     ]
   ]

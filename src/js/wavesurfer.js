@@ -1,5 +1,4 @@
-import WaveSurfer from "wavesurfer.js";
-import RegionPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions.min.js";
+// import RegionPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions.min.js";
 import { BASE_URL } from "../const";
 import { state } from "../state";
 import { progressCont, setupThumbnail, setupTitle } from "../index";
@@ -12,7 +11,13 @@ export let wavesurfer;
 export let canvas;
 export let ctx;
 
-export function initWavesurfer() {
+export async function initWavesurfer() {
+  const [{ default: WaveSurfer }, { default: RegionPlugin }] =
+    await Promise.all([
+      import("wavesurfer.js"),
+      import("wavesurfer.js/dist/plugin/wavesurfer.regions.min.js"),
+    ]);
+
   wavesurfer = WaveSurfer.create({
     container: "#waveform",
     waveColor: "#eee",

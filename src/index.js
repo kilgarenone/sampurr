@@ -11,14 +11,13 @@ export const progressDescEle = document.getElementById("progress-desc");
 export const progressCont = document.getElementById("progress");
 export const titleEle = document.getElementById("title");
 
-initWavesurfer();
-
 const decoder = new TextDecoder();
 
 export async function fetchWaveform(url) {
   const response = await fetch(
     `${BASE_URL}/waveform?url=${encodeURIComponent(url)}`
   );
+
   const reader = response.body.getReader();
   let result = "";
   let isThumbnailParsed = false;
@@ -102,6 +101,8 @@ urlForm.addEventListener("submit", async function (event) {
   progressCont.classList.add("js-show");
 
   const data = new FormData(event.target);
+
+  initWavesurfer();
 
   const response = await fetchWaveform(data.get("url"));
 
