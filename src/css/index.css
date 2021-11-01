@@ -54,6 +54,15 @@ body {
   }
 }
 
+#logo {
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 5rem;
+  color: #463a3a;
+  font-size: 3.6rem;
+  letter-spacing: -1px;
+}
+
 #waveform {
   position: absolute;
   left: 0;
