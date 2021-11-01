@@ -1,5 +1,6 @@
 const path = require("path");
 const { merge } = require("webpack-merge");
+const CopyPlugin = require("copy-webpack-plugin");
 
 const settings = require("./webpack.settings");
 
@@ -45,7 +46,11 @@ const baseConfig = {
       },
     ],
   },
-  plugins: [],
+  plugins: [
+    new CopyPlugin({
+      patterns: [{ from: "src/img", to: "img" }],
+    }),
+  ],
 };
 
 // Modern webpack config
