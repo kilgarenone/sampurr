@@ -4,84 +4,168 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About Sampurr</title>
+    <link rel="icon" href="/img/favicon.png" type="image/png" />
+    <title>About | Sampurr</title>
+    <style>
+      body {
+        background-color: #fffff8;
+        color: #111;
+        font-family: -apple-system, blinkmacsystemfont, "Segoe UI", roboto,
+          oxygen-sans, ubuntu, cantarell, "Helvetica Neue", sans-serif;
+        padding-left: 12.5%;
+        padding-top: 4%;
+        padding-bottom: 7%;
+        max-width: 63ch;
+        font-size: calc(1rem + 0.3vw);
+        line-height: 1.45;
+      }
+
+      article > * + * {
+        margin-bottom: 1rem;
+      }
+
+      ol,
+      p,
+      ul {
+        font-size: 1.3rem;
+      }
+
+      h1 {
+        font-style: italic;
+        font-size: 2.6rem;
+        margin-bottom: 1.1rem;
+      }
+
+      h2 {
+        margin-top: 4rem;
+        margin-bottom: 1rem;
+        font-family: "Times New Roman", Times, serif;
+        font-style: italic;
+        font-size: 2.2rem;
+      }
+
+      h3 {
+        margin-top: 2rem;
+        margin-bottom: -0.25rem;
+      }
+
+      kbd {
+        display: inline-block;
+        padding: 4px;
+        line-height: 10px;
+        color: #444d56;
+        vertical-align: middle;
+        background-color: #f3f3f3;
+        border: 1px solid #d1d5da;
+        border-radius: 3px;
+        box-shadow: inset 0 -1px 0 #d1d5da;
+        font-size: 0.9rem;
+        font-weight: 900;
+      }
+    </style>
   </head>
   <body>
-    <h1>About</h1>
-    <p>
-      <i>Sampurr</i> is a simple tool to sample audio from media you find on the
-      web - Youtube, Soundcloud, Vimeo, and many more.
-    </p>
-    <section>
-      <h2>Usage</h2>
-      <p>
-        For the most parts, I aimed to replicate the gestures you are familiar
-        with when sampling in DAW.
-      </p>
-      <ul>
-        <li>To zoom in or out the waveform &mdash; Mousewheel</li>
-        <li>
-          To navigate the waveform &mdash; Click, hold and drag horizontally
-        </li>
-        <li>
-          To create a sample &mdash; Double-click and drag on the waveform
-        </li>
-        <li>To Pause/Play &mdash; Hit <kbd>Space</kbd></li>
-        <li>
-          To seek in the track &mdash; Press and hold the <kbd>Ctrl</kbd> key
-          and click where you want to go
-        </li>
-      </ul>
-    </section>
-    <section>
-      <h2>Frequently asked questions</h2>
-      <div>
-        <h3>What are the other sites that are supported?</h3>
+    <main>
+      <header>
+        <svg
+          style="border-radius: 6px"
+          width="70"
+          height="70"
+          viewBox="0 0 200 200"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g clip-path="url(#clip0_4:2)">
+            <rect width="200" height="200" fill="#ADFFEB" />
+            <ellipse cx="117.5" cy="40" rx="60.5" ry="60" fill="#FF7373" />
+            <path
+              d="M73.5557 63.312C77.483 57.1208 86.517 57.1208 90.4443 63.312L183.11 209.393C187.333 216.051 182.55 224.75 174.666 224.75H-10.6656C-18.55 224.75 -23.3333 216.051 -19.1099 209.393L73.5557 63.312Z"
+              fill="#9327FF"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_4:2">
+              <rect width="200" height="200" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      </header>
+      <article>
+        <h1>Sampurr</h1>
         <p>
-          Any sites that
-          <a
-            href="https://github.com/yt-dlp/yt-dlp/blob/release/supportedsites.md"
-            >are supported</a
-          >
-          by 'yt-dlp'(a fork of the popular 'youtube-dl')
+          A simple tool to sample audio from media you find on the web -
+          Youtube, Soundcloud, Vimeo, and many more.
         </p>
-      </div>
-      <div>
-        <h3>What are the limitations on the supported sites?</h3>
-        <ol>
-          <li>
+        <section>
+          <h2>Usage</h2>
+          <p>
+            For the most parts, I aimed to replicate the gestures you are
+            familiar with when sampling in DAW.
+          </p>
+          <ul>
+            <li>To zoom in or out the waveform &mdash; Mousewheel</li>
+            <li>
+              To navigate the waveform &mdash; Click, hold and drag horizontally
+            </li>
+            <li>
+              To create a sample &mdash; Double-click and drag on the waveform
+            </li>
+            <li>To Pause/Play &mdash; Hit <kbd>Space</kbd></li>
+            <li>
+              To seek in the track &mdash; Press and hold the
+              <kbd>Ctrl</kbd> key and click where you want to go
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>Frequently asked questions</h2>
+          <div>
+            <h3>What are the other sites that are supported?</h3>
             <p>
-              The audio track
-              <strong>can not be more than 10 minutes long</strong> due to
-              performance concern when rendering the waveform on browser(hence
-              user experience). I will explore this more, but so far it feels
-              laggy with anything past 10min on my 2yo Windows laptop.
+              Any sites that
+              <a
+                href="https://github.com/yt-dlp/yt-dlp/blob/release/supportedsites.md"
+                >are supported</a
+              >
+              by 'yt-dlp'(a fork of the popular 'youtube-dl')
             </p>
-          </li>
-          <li>
-            <p>
-              You might run into the geo-blocking issue. My server is located in
-              US, so I suppose anything that isn't blocked over there. In the
-              case of Youtube, you could try other videos with the same track.
-              Beyond that, honestly, I don't know yet how to circumvent this for
-              everyone from anywhere on everything.
-            </p>
-          </li>
-        </ol>
-      </div>
-    </section>
-    <section>
-      <h2>Support</h2>
-      This service requires a server to run. And that costs money. Some
-      treefiddy thrown my way would be much appreciated!
-      <a href="https://ko-fi.com/T6T53TNM4" target="_blank"
-        ><img
-          height="36"
-          style="border: 0px; height: 36px"
-          src="https://cdn.ko-fi.com/cdn/kofi1.png?v=3"
-          border="0"
-          alt="Buy Me a Coffee at ko-fi.com"
-      /></a>
-    </section>
+          </div>
+          <div>
+            <h3>What are the limitations on the supported sites?</h3>
+            <ol>
+              <li>
+                <p>
+                  The audio track
+                  <strong>can not be more than 10 minutes long</strong> due to
+                  performance concern when interacting with the waveform on
+                  browser. I will revisit this soon.
+                </p>
+              </li>
+              <li>
+                <p>
+                  You might run into the geo-blocking issue. My server is
+                  located in US, so I guess anything that isn't blocked over
+                  there would be fine. In the case of Youtube, you could try
+                  other videos with the same track. Beyond that, I honestly
+                  don't know yet as to circumventing this for everyone from
+                  anywhere on everything.
+                </p>
+              </li>
+            </ol>
+          </div>
+        </section>
+        <section>
+          <h2>Support</h2>
+          <a href="https://ko-fi.com/T6T53TNM4" target="_blank"
+            ><img
+              height="36"
+              style="border: 0px; height: 36px"
+              src="https://cdn.ko-fi.com/cdn/kofi1.png?v=3"
+              border="0"
+              alt="Buy Me a Coffee at ko-fi.com"
+          /></a>
+        </section>
+      </article>
+    </main>
   </body>
 </html>

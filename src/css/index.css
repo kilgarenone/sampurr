@@ -284,8 +284,9 @@ details {
 
 footer {
   position: absolute;
-  bottom: 0;
-  left: 0;
+  bottom: 1rem;
+  right: 2rem;
+  color: #ccc;
 }
 
 #download-sample-form {
