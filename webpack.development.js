@@ -24,6 +24,11 @@ const devConfig = {
       template: settings.templatePath,
       filename: "index.html",
     }),
+    new HtmlWebpackPlugin({
+      template: "src/about.html",
+      filename: "about.html",
+      excludeChunks: ["main"],
+    }),
   ],
   module: {
     rules: [

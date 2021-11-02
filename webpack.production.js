@@ -93,6 +93,11 @@ module.exports = merge(common.modernConfig, {
       chunkFilename: "[name].[contenthash].css",
     }),
     new HtmlWebpackPlugin(configureHTML),
+    new HtmlWebpackPlugin({
+      template: "src/about.html",
+      filename: "about.html",
+      excludeChunks: ["main"],
+    }),
     new webpack.ids.HashedModuleIdsPlugin(),
   ],
 });

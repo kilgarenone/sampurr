@@ -282,6 +282,12 @@ details {
   padding: 1em;
 }
 
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
 #download-sample-form {
   position: absolute;
   display: flex;

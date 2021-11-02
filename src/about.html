@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Sampurr</title>
+  </head>
+  <body>
+    <h1>About</h1>
+    <p>
+      <i>Sampurr</i> is a simple tool to sample audio from media you find on the
+      web - Youtube, Soundcloud, Vimeo, and many more.
+    </p>
+    <section>
+      <h2>Usage</h2>
+      <p>
+        For the most parts, I aimed to replicate the gestures you are familiar
+        with when sampling in DAW.
+      </p>
+      <ul>
+        <li>To zoom in or out the waveform &mdash; Mousewheel</li>
+        <li>
+          To navigate the waveform &mdash; Click, hold and drag horizontally
+        </li>
+        <li>
+          To create a sample &mdash; Double-click and drag on the waveform
+        </li>
+        <li>To Pause/Play &mdash; Hit <kbd>Space</kbd></li>
+        <li>
+          To seek in the track &mdash; Press and hold the <kbd>Ctrl</kbd> key
+          and click where you want to go
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>Frequently asked questions</h2>
+      <div>
+        <h3>What are the other sites that are supported?</h3>
+        <p>
+          Any sites that
+          <a
+            href="https://github.com/yt-dlp/yt-dlp/blob/release/supportedsites.md"
+            >are supported</a
+          >
+          by 'yt-dlp'(a fork of the popular 'youtube-dl')
+        </p>
+      </div>
+      <div>
+        <h3>What are the limitations on the supported sites?</h3>
+        <ol>
+          <li>
+            <p>
+              The audio track
+              <strong>can not be more than 10 minutes long</strong> due to
+              performance concern when rendering the waveform on browser(hence
+              user experience). I will explore this more, but so far it feels
+              laggy with anything past 10min on my 2yo Windows laptop.
+            </p>
+          </li>
+          <li>
+            <p>
+              You might run into the geo-blocking issue. My server is located in
+              US, so I suppose anything that isn't blocked over there. In the
+              case of Youtube, you could try other videos with the same track.
+              Beyond that, honestly, I don't know yet how to circumvent this for
+              everyone from anywhere on everything.
+            </p>
+          </li>
+        </ol>
+      </div>
+    </section>
+    <section>
+      <h2>Support</h2>
+      This service requires a server to run. And that costs money. Some
+      treefiddy thrown my way would be much appreciated!
+      <a href="https://ko-fi.com/T6T53TNM4" target="_blank"
+        ><img
+          height="36"
+          style="border: 0px; height: 36px"
+          src="https://cdn.ko-fi.com/cdn/kofi1.png?v=3"
+          border="0"
+          alt="Buy Me a Coffee at ko-fi.com"
+      /></a>
+    </section>
+  </body>
+</html>
