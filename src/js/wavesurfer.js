@@ -58,6 +58,8 @@ export async function initWavesurfer() {
 }
 
 function handleKeydown(event) {
+  if (event.target.tagName === "INPUT") return;
+
   if (event.key === " ") {
     wavesurfer.playPause();
   } else if (event.key === "Control") {
