@@ -302,6 +302,7 @@ footer {
     border-radius: 0.3em;
     color: #fff;
     margin-right: 0.35em;
+    width: 16em;
 
     &::placeholder {
       color: #ddd;
@@ -337,6 +338,6 @@ footer {
   0% {
     /* A slightly smaller blur radius */
     text-shadow: 0 0 0.06em #fff, 0 0 0.18em #ff00bf, 0 0 0.28em #ff00bf,
-      0 0 0.5em #f09, 0 0 0.4em #f09;
+      0 0 0.5em #f09, 0 0 0.6em #f09;
   }
 }
