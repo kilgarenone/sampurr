@@ -1,38 +1,38 @@
-import { BASE_URL } from "./const";
-import { initWavesurfer, processAndSetupWaveform } from "./js/wavesurfer";
+import { BASE_URL } from "./const"
+import { initWavesurfer, processAndSetupWaveform } from "./js/wavesurfer"
 
-import "./css/index.css";
-import "./css/reset.css";
-import "./css/wavesurfer.css";
+import "./css/index.css"
+import "./css/reset.css"
+import "./css/wavesurfer.css"
 
-export const urlForm = document.getElementById("url-form");
-export const progressValueEle = document.getElementById("progress-value");
-export const progressDescEle = document.getElementById("progress-desc");
-export const progressCont = document.getElementById("progress");
-export const titleEle = document.getElementById("title");
+export const urlForm = document.getElementById("url-form")
+export const progressValueEle = document.getElementById("progress-value")
+export const progressDescEle = document.getElementById("progress-desc")
+export const progressCont = document.getElementById("progress")
+export const titleEle = document.getElementById("title")
 
-const decoder = new TextDecoder();
+const decoder = new TextDecoder()
 
 export async function fetchWaveform(url) {
   const response = await fetch(
     `${BASE_URL}/waveform?url=${encodeURIComponent(url)}`
-  );
+  )
 
-  const reader = response.body.getReader();
-  let result = "";
-  let isThumbnailParsed = false;
+  const reader = response.body.getReader()
+  let result = ""
+  let isThumbnailParsed = false
 
   while (true) {
-    const { done, value } = await reader.read();
+    const { done, value } = await reader.read()
 
     if (done) {
-      return { isThumbnailParsed, chunks: result };
+      return { isThumbnailParsed, chunks: result }
     }
 
     try {
-      const chunk = decoder.decode(value, { stream: true });
+      const chunk = decoder.decode(value, { stream: true })
 
-      result += chunk;
+      result += chunk
 
       const {
         errorMessage,
@@ -42,69 +42,69 @@ export async function fetchWaveform(url) {
         percent,
         data,
         status,
-      } = JSON.parse(chunk);
+      } = JSON.parse(chunk)
 
       if (errorMessage) {
-        progressDescEle.innerHTML = errorMessage;
+        progressDescEle.innerHTML = errorMessage
       }
 
       if (percent) {
-        progressValueEle.textContent = percent;
+        progressValueEle.textContent = percent
       }
 
       if (title) {
-        setupTitle(title);
+        setupTitle(title)
       }
 
       if (thumbnail) {
-        isThumbnailParsed = true;
-        setupThumbnail(thumbnail);
+        isThumbnailParsed = true
+        setupThumbnail(thumbnail)
       }
 
       if (status) {
-        progressDescEle.textContent = status;
+        progressDescEle.textContent = status
       }
     } catch (e) {}
   }
 }
 
 export function setupTitle(title) {
-  titleEle.textContent = title;
-  titleEle.classList.add("js-show");
+  titleEle.textContent = title
+  titleEle.classList.add("js-show")
 }
 
 export function setupThumbnail(thumbnail) {
   document.documentElement.style.setProperty(
     "--thumbnail-image-url",
     `url(${thumbnail})`
-  );
+  )
 
-  document.body.classList.remove("js-thumbnail-ready");
+  document.body.classList.remove("js-thumbnail-ready")
 
   setTimeout(() => {
-    document.body.classList.add("js-thumbnail-ready");
-  }, 2500);
+    document.body.classList.add("js-thumbnail-ready")
+  }, 2500)
 
-  progressDescEle.textContent = "Extracting audio";
+  progressDescEle.textContent = "Extracting audio"
 }
 
 urlForm.addEventListener("submit", async function (event) {
-  event.preventDefault();
+  event.preventDefault()
 
-  this.classList.add("js-hide");
+  this.classList.add("js-hide")
 
   setTimeout(() => {
-    this.hidden = true;
-  }, 300);
+    this.hidden = true
+  }, 300)
 
-  progressCont.hidden = false;
-  progressCont.classList.add("js-show");
+  progressCont.hidden = false
+  progressCont.classList.add("js-show")
 
-  const data = new FormData(event.target);
+  const data = new FormData(event.target)
 
-  initWavesurfer();
+  initWavesurfer()
 
-  const response = await fetchWaveform(data.get("url"));
+  const response = await fetchWaveform(data.get("url"))
 
-  processAndSetupWaveform(response);
-});
+  processAndSetupWaveform(response)
+})

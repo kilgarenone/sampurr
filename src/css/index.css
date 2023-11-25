@@ -2,14 +2,12 @@
   --ratio: 1.4;
   --font-plain: -apple-system, blinkmacsystemfont, "Segoe UI", roboto,
     oxygen-sans, ubuntu, cantarell, "Helvetica Neue", sans-serif;
-  --font-special: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-    "Courier New";
   --color-dark: #1c1c1c;
-  --color-white: #eee;
+  --color-white: #fafafa;
   --thumbnail-image-url: "";
 
   line-height: var(--ratio);
-  font-size: 100%;
+  font-size: 110%;
   font-weight: 600;
   font-family: var(--font-plain);
   background-color: var(--color-dark);
@@ -55,7 +53,7 @@ body {
 }
 
 header {
-  margin-bottom: 6rem;
+  margin-bottom: 4rem;
 
   & svg {
     border-radius: 100%;
@@ -63,14 +61,22 @@ header {
 
   & h1 {
     font-style: italic;
-    font-size: 2.6rem;
+    font-size: 2.3rem;
+    display: inline;
+    font-weight: 900;
   }
 
   & h2 {
-    font-size: 1.2rem;
-    color: #ffffff7d;
+    font-size: 1.5rem;
+    display: inline;
+    color: #ffffff94;
     font-weight: 600;
   }
+}
+
+input:focus {
+  outline: 3px solid #fd0;
+  outline-offset: 0;
 }
 
 #waveform {
@@ -105,7 +111,6 @@ header {
   transition: opacity 0.3s;
   opacity: 1;
   position: absolute;
-  text-align: center;
 
   &.js-hide {
     animation: 0.3s fadeOut;
@@ -113,36 +118,24 @@ header {
   }
 
   & label {
-    font-size: 0.9em;
-    color: #ffffffa8;
+    font-size: 0.8em;
     display: block;
     margin-bottom: 0.6em;
   }
 
   & button {
     font-size: 1.1em;
-    border-radius: 1.5em;
     padding: 0.7em 1em;
     background-color: #e3e850;
     color: #1c1c1ce6;
   }
 
   & input {
-    border-radius: 0.5em;
     padding: 0 0.5em;
-    font-size: 1.1em;
-    height: 3.5em;
-    margin-bottom: 1.5em;
-    color: var(--color-white);
-    background-color: #333;
-
-    &:not(:placeholder-shown):not(:focus):invalid {
-      outline: solid 0.2em #ff5454;
-    }
-
-    &::placeholder {
-      color: #eeeeee75;
-    }
+    font-size: 1em;
+    padding: 0.5em;
+    color: black;
+    background-color: #fff;
   }
 }
 
@@ -167,8 +160,8 @@ header {
 
 #mini-url-form {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 10px;
+  right: 10px;
   font-size: 0.9rem;
   visibility: hidden;
   opacity: 0;
@@ -177,51 +170,62 @@ header {
   background: transparent;
 
   &.js-show {
+    transition-delay: 2s;
     opacity: 1;
     visibility: visible;
   }
 
   & button {
     position: absolute;
-    right: 1em;
+    right: 20px;
     top: 0;
     height: 100%;
 
     & svg {
       vertical-align: middle;
-      fill: #eeeeeec4;
+      fill: #ffffff7d;
     }
   }
 
   & input {
-    height: 3.15em;
+    height: 3em;
     border-radius: 3.15em;
     padding-right: 3.5em;
     padding-left: 1.5em;
     background-color: #26262645;
     border: 1px solid #e3e3e340;
 
-    &::placeholder {
-      color: #ccc;
+    &:hover {
+      background-color: #e3e3e340;
     }
+  }
+
+  &:focus-within svg {
+    fill: #fff;
+  }
+
+  &:focus-within input {
+    background-color: #e3e3e340;
   }
 }
 
 #title {
   position: absolute;
-  top: 0.5em;
-  left: 0.5em;
-  font-size: 1.4rem;
+  top: 10px;
+  left: 10px;
+  font-size: 1rem;
   max-width: 55%;
   background: transparent;
   visibility: hidden;
   opacity: 0;
   transition: opacity 2s;
-  color: #d19b60;
-  text-shadow: 1px 2px 0px black;
+  color: #47ae31;
 
+  &:hover {
+    color: #63d04b;
+  }
   &.js-show {
-    transition-delay: 5s;
+    transition-delay: 1s;
     opacity: 1;
     visibility: visible;
   }
@@ -303,10 +307,6 @@ footer {
     color: #fff;
     margin-right: 0.35em;
     width: 16em;
-
-    &::placeholder {
-      color: #ddd;
-    }
   }
 
   & button {

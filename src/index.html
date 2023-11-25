@@ -1,133 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="icon" href="/img/favicon.png" type="image/png" />
-    <meta
-      name="description"
-      content="Sampurr is a simple way to sample audio from the web such as Youtube, Vimeo, and Soundcloud."
-    />
-    <meta
-      name="keywords"
-      content="audio sampler, web-based sampler, sample audio, sample youtube, sample soundcloud"
-    />
-    <meta property="og:site_name" content="Sampurr" />
-    <meta property="og:title" content="Sample audio from the web | Sampurr" />
-    <meta
-      property="og:description"
-      content="Sampurr is a simple way to sample audio from the web such as Youtube, Vimeo, and Soundcloud."
-    />
-    <meta property="og:url" content="https://www.sampurr.com/" />
-    <meta
-      property="og:image"
-      content="https://www.sampurr.com/img/favicon.png"
-    />
-    <meta
-      property="og:image:alt"
-      content="Logo for Sampurr: A simple way to sample audio from the web"
-    />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Sample audio from the web | Sampurr" />
-    <meta property="twitter:site" content="@kheohyeewei" />
-    <meta name="twitter:creator" content="@kheohyeewei" />
-    <meta
-      property="twitter:description"
-      content="Sampurr is a simple way to sample audio from the web such as Youtube, Vimeo, and Soundcloud."
-    />
-    <meta
-      name="twitter:image"
-      content="https://www.sampurr.com/img/favicon.png"
-    />
-    <meta
-      name="twitter:image:alt"
-      content="Logo for Sampurr: A simple way to sample audio from the web"
-    />
-    <link rel="canonical" href="https://www.sampurr.com" />
-    <title>Sample audio from the web | Sampurr</title>
-    <script
-      async
-      defer
-      data-website-id="e64d2874-2fec-4d8e-9ab8-3d9f487a9703"
-      src="https://sampurr-1984.herokuapp.com/umami-v0.1.js"
-    ></script>
-  </head>
-  <body>
-    <h1 id="title"></h1>
-    <form id="mini-url-form">
-      <input
-        required
-        name="url"
-        type="url"
-        pattern="https://.*"
-        placeholder="Enter new URL"
-      />
-      <button class="url-submit-btn" type="submit">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="25px"
-          viewBox="0 0 24 24"
-          width="25px"
-        >
-          <path d="M0 0h24v24H0V0z" fill="none" />
-          <path
-            d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"
-          />
-        </svg>
-      </button>
-    </form>
-    <div id="waveform"></div>
-    <form id="url-form">
-      <header>
-        <svg
-          width="70"
-          height="70"
-          viewBox="0 0 200 200"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g clip-path="url(#clip0_4:2)">
-            <rect width="200" height="200" fill="#ADFFEB" />
-            <ellipse cx="132" cy="46.5" rx="60" ry="59.5" fill="#FF889D" />
-            <path
-              d="M45.4833 101.751C49.4823 96.3882 57.5177 96.3882 61.5167 101.751L179.717 260.272C184.636 266.868 179.928 276.25 171.701 276.25H-64.7006C-72.9282 276.25 -77.6355 266.868 -72.7174 260.272L45.4833 101.751Z"
-              fill="#A040FF"
-            />
-          </g>
-          <defs>
-            <clipPath id="clip0_4:2">
-              <rect width="200" height="200" fill="white" />
-            </clipPath>
-          </defs>
-        </svg>
-        <h1>Sampurr</h1>
-        <h2>A simple way to sample audio from the web</h2>
-      </header>
-      <input
-        required
-        name="url"
-        type="url"
-        pattern="https://.*"
-        placeholder="https://www.youtube.com/watch?v=4aeETEoNfOg"
-      />
-      <button type="submit">Start sampling</button>
-    </form>
-    <div id="progress" hidden>
-      <h1 id="progress-value">0</h1>
-      <span>%</span>
-      <h2 id="progress-desc">Loading</h2>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="icon" href="/img/favicon.png" type="image/png" />
+  <meta
+    name="description"
+    content="A simple way to sample audio from the web such as Youtube, Vimeo, and Soundcloud." />
+  <meta
+    name="keywords"
+    content="audio sampler, web-based sampler, sample audio, sample youtube, sample soundcloud" />
+  <meta property="og:site_name" content="Sampurr" />
+  <meta property="og:title" content="Sample audio from the web | Sampurr" />
+  <meta
+    property="og:description"
+    content="A simple way to sample audio from the web such as Youtube, Vimeo, and Soundcloud." />
+  <meta property="og:url" content="https://www.sampurr.com/" />
+  <meta
+    property="og:image"
+    content="https://www.sampurr.com/img/favicon.png" />
+  <meta
+    property="og:image:alt"
+    content="Logo for Sampurr: A simple way to sample audio from the web" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Sample audio from the web | Sampurr" />
+  <meta property="twitter:site" content="@kheohyeewei" />
+  <meta name="twitter:creator" content="@kheohyeewei" />
+  <meta
+    property="twitter:description"
+    content="A simple way to sample audio from the web such as Youtube, Vimeo, and Soundcloud." />
+  <meta
+    name="twitter:image"
+    content="https://www.sampurr.com/img/favicon.png" />
+  <meta
+    name="twitter:image:alt"
+    content="Logo for Sampurr: A simple way to sample audio from the web" />
+  <link rel="canonical" href="https://www.sampurr.com" />
+  <title>Sample audio from the web | Sampurr</title>
+</head>
+
+<body>
+  <h1 id="title"></h1>
+  <form id="mini-url-form">
+    <input
+      required
+      name="url"
+      type="url"
+      placeholder="enter new url" />
+    <button class="url-submit-btn" type="submit">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="30"
+        width="30"
+        viewBox="0 0 24 24">
+        <path d="M0 0h24v24H0V0z" fill="none" />
+        <path
+          d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z" />
+      </svg>
+    </button>
+  </form>
+  <div id="waveform"></div>
+  <form id="url-form">
+    <header>
+      <h1>sampurr</h1>
+      <h2>a simple way to sample audio from the web like youtube, vimeo, soundcloud and <a href="https://github.com/yt-dlp/yt-dlp/blob/release/supportedsites.md">more</a></h2>
+    </header>
+    <div style="display: flex;align-items: end;flex-wrap: wrap;gap: 0.5rem;">
+      <div>
+        <label for="url">enter url</label>
+        <input
+          required
+          name="url"
+          type="url"
+          placeholder="" />
+      </div>
+      <button type="submit">start sampling</button>
     </div>
-    <form id="download-sample-form" hidden>
-      <input
-        name="sample-name"
-        type="text"
-        placeholder="Enter sample name(optional)"
-      />
-      <button type="submit">
-        <span>Download</span>
-      </button>
-    </form>
-    <footer><a href="/about.html">About</a></footer>
-  </body>
+  </form>
+  <div id="progress" hidden>
+    <h1 id="progress-value">0</h1>
+    <span>%</span>
+    <h2 id="progress-desc">Loading</h2>
+  </div>
+  <form id="download-sample-form" hidden>
+    <input
+      name="sample-name"
+      type="text"
+      placeholder="give sample a name(optional)" />
+    <button type="submit">
+      <span>download</span>
+    </button>
+  </form>
+  <footer><a href="/about.html">about</a></footer>
+</body>
+
 </html>

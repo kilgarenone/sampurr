@@ -27,14 +27,6 @@ input {
   appearance: none;
 }
 
-input {
-  width: 100%;
-}
-
-input:focus {
-  /* outline: 2px solid #e3e850; */
-}
-
 button {
   display: inline-block;
   cursor: pointer;
