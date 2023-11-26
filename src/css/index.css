@@ -70,7 +70,7 @@ header {
     font-size: 1.5rem;
     display: inline;
     color: #ffffff94;
-    font-weight: 600;
+    font-weight: 400;
   }
 }
 
@@ -201,7 +201,7 @@ input:focus {
   }
 
   &:focus-within svg {
-    fill: #fff;
+    fill: #fffc;
   }
 
   &:focus-within input {
@@ -301,9 +301,9 @@ footer {
   background-color: transparent;
 
   & input {
-    background: #ffffff36;
+    background: #e3e3e340;
     padding: 0.5em 1em;
-    border-radius: 0.3em;
+    border-radius: 10px;
     color: #fff;
     margin-right: 0.35em;
     width: 16em;
@@ -313,31 +313,6 @@ footer {
     color: #fff;
     border-radius: 0.3em;
     padding: 0.4em 0.9em;
-    border: 0.1em solid #fffc;
-    box-shadow: 0 0em 0.2em #fe13c3cc, -0.1em 0.1em 1.1em #bc13fe,
-      inset 0 0 1.2em #bc13fe;
-
-    & span {
-      animation: pulsate 0.1s ease-in-out infinite alternate;
-    }
-  }
-}
-
-@media (prefers-reduced-motion) {
-  #download-sample-form span {
-    animation: none;
-  }
-}
-
-@keyframes pulsate {
-  100% {
-    /* Larger blur radius */
-    text-shadow: 0 0 0.1em #fff, 0 0 0.2em #ff00bf, 0 0 0.3em #ff00bf,
-      0 0 0.5em #f09, 0 0 0.9em #f09;
-  }
-  0% {
-    /* A slightly smaller blur radius */
-    text-shadow: 0 0 0.06em #fff, 0 0 0.18em #ff00bf, 0 0 0.28em #ff00bf,
-      0 0 0.5em #f09, 0 0 0.6em #f09;
+    border: 2px solid #fffc;
   }
 }

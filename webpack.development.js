@@ -1,10 +1,10 @@
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { merge } = require("webpack-merge");
-const postcssNesting = require("postcss-nesting");
+const webpack = require("webpack")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+const { merge } = require("webpack-merge")
+const postcssNesting = require("postcss-nesting")
 
-const settings = require("./webpack.settings");
-const common = require("./webpack.common.js");
+const settings = require("./webpack.settings")
+const common = require("./webpack.common.js")
 
 const devConfig = {
   mode: "development",
@@ -26,7 +26,7 @@ const devConfig = {
     }),
     new HtmlWebpackPlugin({
       template: "src/about.html",
-      filename: "about.html",
+      filename: "about/index.html",
       excludeChunks: ["main"],
     }),
   ],
@@ -50,6 +50,6 @@ const devConfig = {
       },
     ],
   },
-};
+}
 
-module.exports = merge(common.modernConfig, devConfig);
+module.exports = merge(common.modernConfig, devConfig)

@@ -1,16 +1,16 @@
-const webpack = require("webpack");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
-const { merge } = require("webpack-merge");
-const postcssPresetEnv = require("postcss-preset-env");
-const postcssNesting = require("postcss-nesting");
+const webpack = require("webpack")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+const TerserPlugin = require("terser-webpack-plugin")
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer")
+const { merge } = require("webpack-merge")
+const postcssPresetEnv = require("postcss-preset-env")
+const postcssNesting = require("postcss-nesting")
 
-const settings = require("./webpack.settings");
-const common = require("./webpack.common.js");
+const settings = require("./webpack.settings")
+const common = require("./webpack.common.js")
 
-const MODERN_CONFIG = "modern";
+const MODERN_CONFIG = "modern"
 
 // Configure Bundle Analyzer
 const configureBundleAnalyzer = (buildType) => {
@@ -18,9 +18,9 @@ const configureBundleAnalyzer = (buildType) => {
     return {
       analyzerMode: "static",
       reportFilename: "report-modern.html",
-    };
+    }
   }
-};
+}
 
 const configureModernCSSLoader = () => {
   return {
@@ -51,8 +51,8 @@ const configureModernCSSLoader = () => {
         },
       },
     ],
-  };
-};
+  }
+}
 
 const configureOptimization = () => ({
   // split webpack runtime/manifest code into a separate chunk
@@ -64,14 +64,14 @@ const configureOptimization = () => ({
   },
   minimize: true,
   minimizer: [new TerserPlugin()],
-});
+})
 
 const configureHTML = {
   template: settings.templatePath, // use our own template!,
   filename: "index.html",
   // inject: false, // important! cuz we gonna place the <link> and <script> ourselves
   mode: "production",
-};
+}
 
 module.exports = merge(common.modernConfig, {
   mode: "production",
@@ -95,9 +95,9 @@ module.exports = merge(common.modernConfig, {
     new HtmlWebpackPlugin(configureHTML),
     new HtmlWebpackPlugin({
       template: "src/about.html",
-      filename: "about.html",
+      filename: "about/index.html",
       excludeChunks: ["main"],
     }),
     new webpack.ids.HashedModuleIdsPlugin(),
   ],
-});
+})

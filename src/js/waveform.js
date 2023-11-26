@@ -97,7 +97,7 @@ function handleMousemove(e) {
 
     // draw a new rect from the start position
     // to the current mouse position
-    ctx.strokeRect(state.startX, -10, width, 300)
+    ctx.strokeRect(state.startX, -10, width, 450)
 
     return
   }

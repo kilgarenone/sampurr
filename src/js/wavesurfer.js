@@ -1,4 +1,3 @@
-// import RegionPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions.min.js";
 import { BASE_URL } from "../const"
 import { state } from "../state"
 import { progressCont, setupThumbnail, setupTitle } from "../index"
@@ -15,7 +14,7 @@ export async function initWavesurfer() {
   const [{ default: WaveSurfer }, { default: RegionPlugin }] =
     await Promise.all([
       import("wavesurfer.js"),
-      import("wavesurfer.js/dist/plugins/regions.esm.js"),
+      import("wavesurfer.js/dist/plugin/wavesurfer.regions.min.js"),
     ])
 
   wavesurfer = WaveSurfer.create({
@@ -29,12 +28,8 @@ export async function initWavesurfer() {
     minPxPerSec: 20,
     autoCenter: false,
     cursorColor: "red",
-    // plugins: [RegionPlugin.create(), ZoomToMousePlugin.create()],
-    plugins: [RegionPlugin.create()],
+    plugins: [RegionPlugin.create(), ZoomToMousePlugin.create()],
   })
-  console.log(wavesurfer)
-
-  wavesurfer.container = document.querySelector("#waveform")
 
   const { width, height, left, top } =
     wavesurfer.container.getBoundingClientRect()
@@ -54,6 +49,11 @@ export async function initWavesurfer() {
   wavesurfer.on("region-click", function (region, e) {
     e.stopPropagation()
     region.play()
+  })
+
+  wavesurfer.on("region-removed", function (region, e) {
+    console.log("remoed")
+    sampleForm.hidden = true
   })
 
   wavesurfer.on("waveform-ready", function (e) {
@@ -103,7 +103,7 @@ export function processAndSetupWaveform({ isThumbnailParsed, chunks }) {
     // unblur so user can start using keyboard shoftcut unaffected
     document.activeElement.blur()
 
-    wavesurfer.setOptions({ cursorColor: "red", height: 450 })
+    wavesurfer.setCursorColor("red")
 
     state.mediaID = media.id
 

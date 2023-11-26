@@ -41,6 +41,6 @@
   },
   "dependencies": {
     "core-js": "^3.19.0",
-    "wavesurfer.js": "^7.4.6"
+    "wavesurfer.js": "^6.6.4"
   }
 }
