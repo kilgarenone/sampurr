@@ -52,7 +52,6 @@ export async function initWavesurfer() {
   })
 
   wavesurfer.on("region-removed", function (region, e) {
-    console.log("remoed")
     sampleForm.hidden = true
   })
 
