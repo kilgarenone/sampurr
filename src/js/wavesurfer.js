@@ -16,7 +16,6 @@ export async function initWavesurfer() {
     await Promise.all([
       import("wavesurfer.js"),
       import("wavesurfer.js/dist/plugins/regions.esm.js"),
-      // import("wavesurfer.js/dist/plugins/zoom.esm.js"),
     ])
 
   wavesurfer = WaveSurfer.create({
@@ -24,21 +23,21 @@ export async function initWavesurfer() {
     waveColor: "#FFF59D",
     height: 450,
     progressColor: "#ffc8bb",
-    // fillParent: true,
-    // backend: "MediaElement",
+    backend: "MediaElement",
     normalize: true,
     interact: false,
-    // minPxPerSec: 20,
+    minPxPerSec: 20,
     autoCenter: false,
     cursorColor: "red",
-    plugins: [RegionPlugin.create(), ZoomToMousePlugin.create()],
+    // plugins: [RegionPlugin.create(), ZoomToMousePlugin.create()],
+    plugins: [RegionPlugin.create()],
   })
+  console.log(wavesurfer)
 
   wavesurfer.container = document.querySelector("#waveform")
 
   const { width, height, left, top } =
     wavesurfer.container.getBoundingClientRect()
-
   // canvas for drawing boundaries of sample
   canvas = document.createElement("canvas")
   canvas.id = "canvas"
@@ -57,7 +56,7 @@ export async function initWavesurfer() {
     region.play()
   })
 
-  wavesurfer.on("ready", function (e) {
+  wavesurfer.on("waveform-ready", function (e) {
     progressCont.hidden = true
   })
 }
@@ -109,8 +108,6 @@ export function processAndSetupWaveform({ isThumbnailParsed, chunks }) {
     state.mediaID = media.id
 
     wavesurfer.container.classList.add("js-show")
-
-    state.peaks = peaks
 
     // load peaks into wavesurfer.js
     wavesurfer.load(`${BASE_URL}/${state.mediaID}.wav`, peaks)
